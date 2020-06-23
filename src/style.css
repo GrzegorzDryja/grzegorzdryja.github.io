@@ -6,7 +6,7 @@
  */
 
  body {
-    background: #001440;
+    background: #001440 /*rgb(54, 128, 54)*/;
     color: #d6d6d6;
     font-family: 'Source Code Pro', monospace;
     font-size: 15pt;
