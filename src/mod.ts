@@ -1,19 +1,28 @@
 
 import showRepos from "../github/mod.ts";
 import { getAboutMe } from "../github/service.ts";
+import * as rimu from "https://deno.land/x/rimu/mod.ts";
 
 getAboutMe().then((bio) => {    
     const md = document.createElement('about-me');
     const main = document.getElementsByTagName("main");
-    md.textContent = bio;
+    md.innerHTML = rimu.render(bio);
     main[0].appendChild(md);
 });
 
-showRepos() //.then((repos) => console.log(repos)); //undefinded, 'Promise<void>
+showRepos().then((repos) => {
+    const reposComponent = document.createElement('repos');
+    const main = document.getElementsByTagName("main");
+    const p = document.createElement("p");
+    p.innerHTML = "Check out few of my filtered github repos serverd by the github api:";
+    const reposList = document.createElement("ul");
 
-// then(() => {    
-//     const gh = document.createElement('repos');
-//     const main = document.getElementsByTagName("main");
-//     gh.textContent = getRepos();
-//     main[0].appendChild(gh);
-// })
+    repos.forEach((repo: any) => {               
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: ${repo.language}<br />Description: ${repo.description} [ demo ]`;
+        reposList.appendChild(li);
+    });
+    reposComponent.appendChild(reposList);
+    reposComponent.insertBefore(p, reposList);
+    main[0].appendChild(reposComponent);
+})

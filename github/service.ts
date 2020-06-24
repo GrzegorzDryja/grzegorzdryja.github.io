@@ -24,7 +24,7 @@ export default function getRepos() {
     })
     .then((arr) => arr
       .filter((repo: any) => !FORBIDDEN_ROPOS.includes(repo.name))
-      .map(convert))
+      .map(convert)) 
     .catch((err) => console.warn(err));
 }
 
