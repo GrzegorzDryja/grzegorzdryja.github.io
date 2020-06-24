@@ -8,12 +8,11 @@ export default async function() {
     language: string,
     description: string
   }) => {
-    console.log(
-      repo.name + "/" +
-      repo.html_url + "/" +
-      repo.language + "/" +
-      repo.description);
-    });
+    const gh = document.createElement('repos');
+    const main = document.getElementsByTagName("main");
+    gh.textContent = repo.name + "/" + repo.html_url + "/" + repo.language + "/" + repo.description;
+    main[0].appendChild(gh);
+  });
 
   //(await getRepos()).forEach((r: any) => console.log(r["name"]))
 }

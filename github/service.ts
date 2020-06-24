@@ -1,7 +1,7 @@
 import { GitHubRepo } from './model.ts';
 
 const REPOS_URL = 'https://api.github.com/users/grzegorzdryja/repos';
-const RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/deno-markdown/data/';
+const RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/deno-markdown/public/data/';
 const FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders'];
 
 const convert = (

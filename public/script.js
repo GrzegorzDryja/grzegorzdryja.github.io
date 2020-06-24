@@ -172,7 +172,7 @@ System.register("github/service", ["github/model"], function (exports_2, context
         ],
         execute: function () {
             REPOS_URL = 'https://api.github.com/users/grzegorzdryja/repos';
-            RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/deno-markdown/data/';
+            RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/deno-markdown/public/data/';
             FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders'];
             convert = ({ name, html_url, language, description }) => new model_ts_1.GitHubRepo({
                 name,
@@ -190,10 +190,10 @@ System.register("github/mod", ["github/service"], function (exports_3, context_3
     async function default_1() {
         const arr = await service_ts_1.default();
         arr.forEach((repo) => {
-            console.log(repo.name + "/" +
-                repo.html_url + "/" +
-                repo.language + "/" +
-                repo.description);
+            const gh = document.createElement('repos');
+            const main = document.getElementsByTagName("main");
+            gh.textContent = repo.name + "/" + repo.html_url + "/" + repo.language + "/" + repo.description;
+            main[0].appendChild(gh);
         });
         //(await getRepos()).forEach((r: any) => console.log(r["name"]))
     }
@@ -222,13 +222,13 @@ System.register("src/mod", ["github/mod", "github/service"], function (exports_4
             }
         ],
         execute: function () {
-            mod_ts_1.default();
             service_ts_2.getAboutMe().then((bio) => {
                 const md = document.createElement('about-me');
                 const main = document.getElementsByTagName("main");
                 md.textContent = bio;
                 main[0].appendChild(md);
             });
+            mod_ts_1.default(); //.then((repos) => console.log(repos)); //undefinded, 'Promise<void>
         }
     };
 });
