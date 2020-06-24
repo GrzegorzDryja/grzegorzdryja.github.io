@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Canvas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="script.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+
+        <div id="content">
+            <div>
+                <canvas id="board"
+                        ondrop="drop(event)"
+                        ondragover="allowDrop(event)"
+                        onmousedown="mouseDown(event)"
+                        onmousemove="mouseMove(event)"
+                        onmouseup="mouseUp(event)">
+                        
+                </canvas>
+            </div>
+        </div>
+        <div id="palette">
+             <input type="button" value="Clear" onclick="clearCanvas()" />
+             <p>Choose color:</p>
+             <div id="colorPicker1" onclick="pickColor1(event)"></div>
+             <div id="colorPicker2" onclick="pickColor2(event)"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+#board {
+    border: 1px;
+    border-style: solid; 
+    border-color: black;
+}
+#colorPicker1{
+    float: left;
+    width: 30px;
+    height: 30px;
+    background-color: #44AA22;
+}
+#colorPicker2{
+    float: left;
+    width: 30px;
+    height: 30px;
+    background-color: #00AAEE;
+}
