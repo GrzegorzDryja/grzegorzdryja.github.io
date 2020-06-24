@@ -34,7 +34,7 @@ async function getRawFIleContent(pathToFile: string) {
     if (response.ok) {
       return await response.text();
     }
-    throw Error('Response not 200 posts');
+    throw Error('Response not 200/ bio file is not found');
   } catch (err) {
     console.log(err);
     return '';

@@ -153,7 +153,7 @@ System.register("github/service", ["github/model"], function (exports_2, context
             if (response.ok) {
                 return await response.text();
             }
-            throw Error('Response not 200 posts');
+            throw Error('Response not 200/ bio file is not found');
         }
         catch (err) {
             console.log(err);
@@ -208,18 +208,27 @@ System.register("github/mod", ["github/service"], function (exports_3, context_3
         }
     };
 });
-System.register("src/mod", ["github/mod"], function (exports_4, context_4) {
+System.register("src/mod", ["github/mod", "github/service"], function (exports_4, context_4) {
     "use strict";
-    var mod_ts_1;
+    var mod_ts_1, service_ts_2;
     var __moduleName = context_4 && context_4.id;
     return {
         setters: [
             function (mod_ts_1_1) {
                 mod_ts_1 = mod_ts_1_1;
+            },
+            function (service_ts_2_1) {
+                service_ts_2 = service_ts_2_1;
             }
         ],
         execute: function () {
             mod_ts_1.default();
+            service_ts_2.getAboutMe().then((bio) => {
+                const md = document.createElement('about-me');
+                const main = document.getElementsByTagName("main");
+                md.textContent = bio;
+                main[0].appendChild(md);
+            });
         }
     };
 });
