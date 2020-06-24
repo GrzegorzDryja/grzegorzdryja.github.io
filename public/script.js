@@ -183,29 +183,10 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/servi
         }
     };
 });
-System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/mod", ["file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/service"], function (exports_3, context_3) {
-    "use strict";
-    var service_ts_1;
-    var __moduleName = context_3 && context_3.id;
-    async function default_1() {
-        const arr = await service_ts_1.default();
-        return arr;
-    }
-    exports_3("default", default_1);
-    return {
-        setters: [
-            function (service_ts_1_1) {
-                service_ts_1 = service_ts_1_1;
-            }
-        ],
-        execute: function () {
-        }
-    };
-});
-System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4, context_4) {
+System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_3, context_3) {
     "use strict";
     var Reader, Writer;
-    var __moduleName = context_4 && context_4.id;
+    var __moduleName = context_3 && context_3.id;
     return {
         setters: [],
         execute: function () {
@@ -271,7 +252,7 @@ System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4,
                     }
                 }
             };
-            exports_4("Reader", Reader);
+            exports_3("Reader", Reader);
             Writer = class Writer {
                 constructor() {
                     this.buffer = [];
@@ -283,20 +264,20 @@ System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4,
                     return this.buffer.join("");
                 }
             };
-            exports_4("Writer", Writer);
+            exports_3("Writer", Writer);
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/quotes", ["https://deno.land/x/rimu/src/deno/utils"], function (exports_5, context_5) {
+System.register("https://deno.land/x/rimu/src/deno/quotes", ["https://deno.land/x/rimu/src/deno/utils"], function (exports_4, context_4) {
     "use strict";
     var Utils, defs, DEFAULT_DEFS, quotesRe, unescapeRe;
-    var __moduleName = context_5 && context_5.id;
+    var __moduleName = context_4 && context_4.id;
     // Reset definitions to defaults.
     function init() {
         defs = DEFAULT_DEFS.map((def) => Utils.copy(def));
         initializeRegExps();
     }
-    exports_5("init", init);
+    exports_4("init", init);
     // Synthesise re's to find and unescape quotes.
     function initializeRegExps() {
         let quotes = defs.map((def) => Utils.escapeRegExp(def.quote));
@@ -304,21 +285,21 @@ System.register("https://deno.land/x/rimu/src/deno/quotes", ["https://deno.land/
         // Quoted text cannot begin or end with whitespace.
         // Quoted can span multiple lines.
         // Quoted text cannot end with a backslash.
-        exports_5("quotesRe", quotesRe = RegExp("\\\\?(" + quotes.join("|") + ")([^\\s\\\\]|\\S[\\s\\S]*?[^\\s\\\\])\\1", "g"));
+        exports_4("quotesRe", quotesRe = RegExp("\\\\?(" + quotes.join("|") + ")([^\\s\\\\]|\\S[\\s\\S]*?[^\\s\\\\])\\1", "g"));
         // $1 is quote character(s).
         unescapeRe = RegExp("\\\\(" + quotes.join("|") + ")", "g");
     }
-    exports_5("initializeRegExps", initializeRegExps);
+    exports_4("initializeRegExps", initializeRegExps);
     // Return the quote definition corresponding to 'quote' character, return undefined if not found.
     function getDefinition(quote) {
         return defs.filter((def) => def.quote === quote)[0];
     }
-    exports_5("getDefinition", getDefinition);
+    exports_4("getDefinition", getDefinition);
     // Strip backslashes from quote characters.
     function unescape(s) {
         return s.replace(unescapeRe, "$1");
     }
-    exports_5("unescape", unescape);
+    exports_4("unescape", unescape);
     // Update existing or add new quote definition.
     function setDefinition(def) {
         for (let d of defs) {
@@ -340,7 +321,7 @@ System.register("https://deno.land/x/rimu/src/deno/quotes", ["https://deno.land/
         }
         initializeRegExps();
     }
-    exports_5("setDefinition", setDefinition);
+    exports_4("setDefinition", setDefinition);
     return {
         setters: [
             function (Utils_1) {
@@ -395,15 +376,15 @@ System.register("https://deno.land/x/rimu/src/deno/quotes", ["https://deno.land/
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/utils"], function (exports_6, context_6) {
+System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/utils"], function (exports_5, context_5) {
     "use strict";
     var Options, Utils, defs, DEFAULT_DEFS;
-    var __moduleName = context_6 && context_6.id;
+    var __moduleName = context_5 && context_5.id;
     // Reset definitions to defaults.
     function init() {
-        exports_6("defs", defs = DEFAULT_DEFS.map((def) => Utils.copy(def)));
+        exports_5("defs", defs = DEFAULT_DEFS.map((def) => Utils.copy(def)));
     }
-    exports_6("init", init);
+    exports_5("init", init);
     // Update existing or add new replacement definition.
     function setDefinition(regexp, flags, replacement) {
         if (!/g/.test(flags)) {
@@ -421,7 +402,7 @@ System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno
         // Append new definition to end of defs list (custom definitons have lower precedence).
         defs.push({ match: new RegExp(regexp, flags), replacement: replacement });
     }
-    exports_6("setDefinition", setDefinition);
+    exports_5("setDefinition", setDefinition);
     return {
         setters: [
             function (Options_1) {
@@ -557,10 +538,10 @@ System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno
  character entities. The fragments are then reassembled (defraged) into a
  resultant HTML string.
  */
-System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_7, context_7) {
+System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_6, context_6) {
     "use strict";
     var Quotes, Replacements, Utils, savedReplacements;
-    var __moduleName = context_7 && context_7.id;
+    var __moduleName = context_6 && context_6.id;
     function render(source) {
         let result;
         result = preReplacements(source);
@@ -570,7 +551,7 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
         result = defrag(fragments);
         return postReplacements(result);
     }
-    exports_7("render", render);
+    exports_6("render", render);
     // Converts fragments to a string.
     function defrag(fragments) {
         return fragments.reduce((result, fragment) => result + fragment.text, "");
@@ -740,21 +721,21 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/spans"], function (exports_8, context_8) {
+System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/spans"], function (exports_7, context_7) {
     "use strict";
     var DelimitedBlocks, Macros, Options, Spans, BlockAttributes;
-    var __moduleName = context_8 && context_8.id;
+    var __moduleName = context_7 && context_7.id;
     // http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
     function escapeRegExp(s) {
         return s.replace(/[\-\/\\^$*+?.()|\[\]{}]/g, "\\$&");
     }
-    exports_8("escapeRegExp", escapeRegExp);
+    exports_7("escapeRegExp", escapeRegExp);
     function replaceSpecialChars(s) {
         return s.replace(/&/g, "&amp;")
             .replace(/>/g, "&gt;")
             .replace(/</g, "&lt;");
     }
-    exports_8("replaceSpecialChars", replaceSpecialChars);
+    exports_7("replaceSpecialChars", replaceSpecialChars);
     // Replace pattern '$1' or '$$1', '$2' or '$$2'... in `replacement` with corresponding match groups
     // from `match`. If pattern starts with one '$' character add specials to `expansionOptions`,
     // if it starts with two '$' characters add spans to `expansionOptions`.
@@ -776,7 +757,7 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
             return replaceInline(result, expansionOptions);
         });
     }
-    exports_8("replaceMatch", replaceMatch);
+    exports_7("replaceMatch", replaceMatch);
     // Shallow object clone.
     function copy(source) {
         let result = {};
@@ -787,14 +768,14 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
         }
         return result;
     }
-    exports_8("copy", copy);
+    exports_7("copy", copy);
     // Copy properties in source object to target object.
     function merge(target, source) {
         for (let key in source) {
             target[key] = source[key];
         }
     }
-    exports_8("merge", merge);
+    exports_7("merge", merge);
     // Replace the inline elements specified in options in text and return the result.
     function replaceInline(text, expansionOptions) {
         if (expansionOptions.macros) {
@@ -809,7 +790,7 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
         }
         return text;
     }
-    exports_8("replaceInline", replaceInline);
+    exports_7("replaceInline", replaceInline);
     return {
         setters: [
             function (DelimitedBlocks_1) {
@@ -957,44 +938,44 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                 }
                 BlockAttributes.slugify = slugify;
             })(BlockAttributes || (BlockAttributes = {}));
-            exports_8("BlockAttributes", BlockAttributes);
+            exports_7("BlockAttributes", BlockAttributes);
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/utils"], function (exports_9, context_9) {
+System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/utils"], function (exports_8, context_8) {
     "use strict";
     var Api, Utils, safeMode, htmlReplacement, callback;
-    var __moduleName = context_9 && context_9.id;
+    var __moduleName = context_8 && context_8.id;
     // Reset options to default values.
     function init() {
         safeMode = 0;
         htmlReplacement = "<mark>replaced HTML</mark>";
         callback = undefined;
     }
-    exports_9("init", init);
+    exports_8("init", init);
     // Return true if safeMode is non-zero.
     function isSafeModeNz() {
         return safeMode !== 0;
     }
-    exports_9("isSafeModeNz", isSafeModeNz);
+    exports_8("isSafeModeNz", isSafeModeNz);
     function getSafeMode() {
         return safeMode;
     }
-    exports_9("getSafeMode", getSafeMode);
+    exports_8("getSafeMode", getSafeMode);
     // Return true if Macro Definitions are ignored.
     function skipMacroDefs() {
         /* tslint:disable:no-bitwise */
         return safeMode !== 0 && (safeMode & 0x8) === 0;
         /* tslint:enable:no-bitwise */
     }
-    exports_9("skipMacroDefs", skipMacroDefs);
+    exports_8("skipMacroDefs", skipMacroDefs);
     // Return true if Block Attribute elements are ignored.
     function skipBlockAttributes() {
         /* tslint:disable:no-bitwise */
         return (safeMode & 0x4) !== 0;
         /* tslint:enable:no-bitwise */
     }
-    exports_9("skipBlockAttributes", skipBlockAttributes);
+    exports_8("skipBlockAttributes", skipBlockAttributes);
     function setSafeMode(value) {
         let n = Number(value);
         if (isNaN(n) || n < 0 || n > 15) {
@@ -1044,14 +1025,14 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
             setHtmlReplacement(options.htmlReplacement);
         }
     }
-    exports_9("updateOptions", updateOptions);
+    exports_8("updateOptions", updateOptions);
     // Set named option value.
     function setOption(name, value) {
         let option = {};
         option[name] = value;
         updateOptions(option);
     }
-    exports_9("setOption", setOption);
+    exports_8("setOption", setOption);
     // Filter HTML based on current safeMode.
     function htmlSafeModeFilter(html) {
         /* tslint:disable:no-bitwise */
@@ -1069,20 +1050,20 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
                 return "";
         }
     }
-    exports_9("htmlSafeModeFilter", htmlSafeModeFilter);
+    exports_8("htmlSafeModeFilter", htmlSafeModeFilter);
     function errorCallback(message) {
         if (callback) {
             callback({ type: "error", text: message });
         }
     }
-    exports_9("errorCallback", errorCallback);
+    exports_8("errorCallback", errorCallback);
     // Called when an unexpected program error occurs.
     function panic(message) {
         let msg = "panic: " + message;
         console.error(msg);
         errorCallback(msg);
     }
-    exports_9("panic", panic);
+    exports_8("panic", panic);
     return {
         setters: [
             function (Api_1) {
@@ -1096,19 +1077,19 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/spans"], function (exports_10, context_10) {
+System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/spans"], function (exports_9, context_9) {
     "use strict";
     var Options, Spans, MATCH_LINE, LINE_DEF, LITERAL_DEF_OPEN, LITERAL_DEF_CLOSE, EXPRESSION_DEF_OPEN, EXPRESSION_DEF_CLOSE, defs;
-    var __moduleName = context_10 && context_10.id;
+    var __moduleName = context_9 && context_9.id;
     // Reset definitions to defaults.
     function init() {
         // Initialize predefined macros.
-        exports_10("defs", defs = [
+        exports_9("defs", defs = [
             { name: "--", value: "" },
             { name: "--header-ids", value: "" },
         ]);
     }
-    exports_10("init", init);
+    exports_9("init", init);
     // Return named macro value or null if it doesn't exist.
     function getValue(name) {
         for (let def of defs) {
@@ -1118,7 +1099,7 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         }
         return null;
     }
-    exports_10("getValue", getValue);
+    exports_9("getValue", getValue);
     // Set named macro value or add it if it doesn't exist.
     // If the name ends with '?' then don't set the macro if it already exists.
     // `quote` is a single character: ' if a literal value, ` if an expression value.
@@ -1153,7 +1134,7 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         }
         defs.push({ name: name, value: value });
     }
-    exports_10("setValue", setValue);
+    exports_9("setValue", setValue);
     // Render macro invocations in text string.
     // Render Simple invocations first, followed by Parametized, Inclusion and Exclusion invocations.
     function render(text, silent = false) {
@@ -1249,7 +1230,7 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         }
         return result;
     }
-    exports_10("render", render);
+    exports_9("render", render);
     return {
         setters: [
             function (Options_3) {
@@ -1261,30 +1242,30 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         ],
         execute: function () {
             // Matches a line starting with a macro invocation. $1 = macro invocation.
-            exports_10("MATCH_LINE", MATCH_LINE = /^({(?:[\w\-]+)(?:[!=|?](?:|.*?[^\\]))?}).*$/);
+            exports_9("MATCH_LINE", MATCH_LINE = /^({(?:[\w\-]+)(?:[!=|?](?:|.*?[^\\]))?}).*$/);
             // Match single-line macro definition. $1 = name, $2 = delimiter, $3 = value.
-            exports_10("LINE_DEF", LINE_DEF = /^\\?{([\w\-]+\??)}\s*=\s*(['`])(.*)\2$/);
+            exports_9("LINE_DEF", LINE_DEF = /^\\?{([\w\-]+\??)}\s*=\s*(['`])(.*)\2$/);
             // Match multi-line macro definition literal value open delimiter. $1 is first line of macro.
-            exports_10("LITERAL_DEF_OPEN", LITERAL_DEF_OPEN = /^\\?{[\w\-]+\??}\s*=\s*'(.*)$/);
-            exports_10("LITERAL_DEF_CLOSE", LITERAL_DEF_CLOSE = /^(.*)'$/);
+            exports_9("LITERAL_DEF_OPEN", LITERAL_DEF_OPEN = /^\\?{[\w\-]+\??}\s*=\s*'(.*)$/);
+            exports_9("LITERAL_DEF_CLOSE", LITERAL_DEF_CLOSE = /^(.*)'$/);
             // Match multi-line macro definition expression value open delimiter. $1 is first line of macro.
-            exports_10("EXPRESSION_DEF_OPEN", EXPRESSION_DEF_OPEN = /^\\?{[\w\-]+\??}\s*=\s*`(.*)$/);
-            exports_10("EXPRESSION_DEF_CLOSE", EXPRESSION_DEF_CLOSE = /^(.*)`$/);
-            exports_10("defs", defs = []);
+            exports_9("EXPRESSION_DEF_OPEN", EXPRESSION_DEF_OPEN = /^\\?{[\w\-]+\??}\s*=\s*`(.*)$/);
+            exports_9("EXPRESSION_DEF_CLOSE", EXPRESSION_DEF_CLOSE = /^(.*)`$/);
+            exports_9("defs", defs = []);
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/utils"], function (exports_11, context_11) {
+System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/utils"], function (exports_10, context_10) {
     "use strict";
     var Api, Macros, Options, Utils, utils_ts_1, MATCH_INLINE_TAG, defs, DEFAULT_DEFS;
-    var __moduleName = context_11 && context_11.id;
+    var __moduleName = context_10 && context_10.id;
     // Reset definitions to defaults.
     function init() {
-        exports_11("defs", defs = DEFAULT_DEFS.map((def) => Utils.copy(def)));
+        exports_10("defs", defs = DEFAULT_DEFS.map((def) => Utils.copy(def)));
         // Copy definition object fields.
         defs.forEach((def, i) => def.expansionOptions = Utils.copy(DEFAULT_DEFS[i].expansionOptions));
     }
-    exports_11("init", init);
+    exports_10("init", init);
     // If the next element in the reader is a valid delimited block render it
     // and return true, else return false.
     function render(reader, writer, allowed = []) {
@@ -1372,12 +1353,12 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
         }
         return false; // No matching delimited block found.
     }
-    exports_11("render", render);
+    exports_10("render", render);
     // Return block definition or undefined if not found.
     function getDefinition(name) {
         return defs.filter((def) => def.name === name)[0];
     }
-    exports_11("getDefinition", getDefinition);
+    exports_10("getDefinition", getDefinition);
     // Parse block-options string into blockOptions.
     function setBlockOptions(blockOptions, optionsString) {
         if (optionsString) {
@@ -1396,7 +1377,7 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
             }
         }
     }
-    exports_11("setBlockOptions", setBlockOptions);
+    exports_10("setBlockOptions", setBlockOptions);
     // Update existing named definition.
     // Value syntax: <open-tag>|<close-tag> block-options
     function setDefinition(name, value) {
@@ -1419,7 +1400,7 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
             setBlockOptions(def.expansionOptions, match[3]);
         }
     }
-    exports_11("setDefinition", setDefinition);
+    exports_10("setDefinition", setDefinition);
     // delimiterFilter that returns opening delimiter line text from match group $1.
     function delimiterTextFilter(match) {
         return match[1];
@@ -1635,10 +1616,10 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_12, context_12) {
+System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_11, context_11) {
     "use strict";
     var DelimitedBlocks, Macros, Options, Quotes, Replacements, Utils, utils_ts_2, defs;
-    var __moduleName = context_12 && context_12.id;
+    var __moduleName = context_11 && context_11.id;
     // If the next element in the reader is a valid line block render it
     // and return true, else return false.
     function render(reader, writer, allowed = []) {
@@ -1683,7 +1664,7 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
         }
         return false;
     }
-    exports_12("render", render);
+    exports_11("render", render);
     return {
         setters: [
             function (DelimitedBlocks_2) {
@@ -1869,10 +1850,10 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/io", "https://deno.land/x/rimu/src/deno/lineblocks", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/utils"], function (exports_13, context_13) {
+System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/io", "https://deno.land/x/rimu/src/deno/lineblocks", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/utils"], function (exports_12, context_12) {
     "use strict";
     var DelimitedBlocks, Io, LineBlocks, Options, Utils, utils_ts_3, defs, ids;
-    var __moduleName = context_13 && context_13.id;
+    var __moduleName = context_12 && context_12.id;
     function render(reader, writer) {
         if (reader.eof())
             Options.panic("premature eof");
@@ -1887,7 +1868,7 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
             Options.panic("list stack failure");
         return true;
     }
-    exports_13("render", render);
+    exports_12("render", render);
     function renderList(item, reader, writer) {
         ids.push(item.id);
         writer.write(utils_ts_3.BlockAttributes.inject(item.def.listOpenTag));
@@ -2076,10 +2057,10 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
         }
     };
 });
-System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/io", "https://deno.land/x/rimu/src/deno/lineblocks", "https://deno.land/x/rimu/src/deno/lists", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_14, context_14) {
+System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/rimu/src/deno/delimitedblocks", "https://deno.land/x/rimu/src/deno/io", "https://deno.land/x/rimu/src/deno/lineblocks", "https://deno.land/x/rimu/src/deno/lists", "https://deno.land/x/rimu/src/deno/macros", "https://deno.land/x/rimu/src/deno/options", "https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_13, context_13) {
     "use strict";
     var DelimitedBlocks, Io, LineBlocks, Lists, Macros, Options, Quotes, Replacements, utils_ts_4;
-    var __moduleName = context_14 && context_14.id;
+    var __moduleName = context_13 && context_13.id;
     function render(source) {
         let reader = new Io.Reader(source);
         let writer = new Io.Writer();
@@ -2098,7 +2079,7 @@ System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/r
         }
         return writer.toString();
     }
-    exports_14("render", render);
+    exports_13("render", render);
     // Set API to default state.
     function init() {
         utils_ts_4.BlockAttributes.init();
@@ -2108,7 +2089,7 @@ System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/r
         Quotes.init();
         Replacements.init();
     }
-    exports_14("init", init);
+    exports_13("init", init);
     return {
         setters: [
             function (DelimitedBlocks_4) {
@@ -2149,10 +2130,10 @@ System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/r
  The compiled modules are bundled by Webpack into 'var' (script tag) and 'commonjs' (npm)
  formatted libraries.
  */
-System.register("https://deno.land/x/rimu/src/deno/rimu", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/options"], function (exports_15, context_15) {
+System.register("https://deno.land/x/rimu/src/deno/rimu", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/options"], function (exports_14, context_14) {
     "use strict";
     var Api, Options;
-    var __moduleName = context_15 && context_15.id;
+    var __moduleName = context_14 && context_14.id;
     /*
       The single public API which translates Rimu Markup to HTML:
     
@@ -2162,7 +2143,7 @@ System.register("https://deno.land/x/rimu/src/deno/rimu", ["https://deno.land/x/
         Options.updateOptions(opts);
         return Api.render(source);
     }
-    exports_15("render", render);
+    exports_14("render", render);
     return {
         setters: [
             function (Api_3) {
@@ -2179,15 +2160,15 @@ System.register("https://deno.land/x/rimu/src/deno/rimu", ["https://deno.land/x/
     };
 });
 // Rimu Deno module.
-System.register("https://deno.land/x/rimu/mod", ["https://deno.land/x/rimu/src/deno/rimu"], function (exports_16, context_16) {
+System.register("https://deno.land/x/rimu/mod", ["https://deno.land/x/rimu/src/deno/rimu"], function (exports_15, context_15) {
     "use strict";
-    var __moduleName = context_16 && context_16.id;
+    var __moduleName = context_15 && context_15.id;
     function exportStar_1(m) {
         var exports = {};
         for (var n in m) {
             if (n !== "default") exports[n] = m[n];
         }
-        exports_16(exports);
+        exports_15(exports);
     }
     return {
         setters: [
@@ -2199,44 +2180,90 @@ System.register("https://deno.land/x/rimu/mod", ["https://deno.land/x/rimu/src/d
         }
     };
 });
-System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/mod", "file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/service", "https://deno.land/x/rimu/mod"], function (exports_17, context_17) {
+System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/repos/demo", [], function (exports_16, context_16) {
     "use strict";
-    var mod_ts_1, service_ts_2, rimu;
+    var __moduleName = context_16 && context_16.id;
+    async function demo() {
+        const demoIndex = await getIndexFile();
+        const url = "https://raw.githubusercontent.com/GrzegorzDryja/2D-map-navigation/master/index.html";
+        const demoSite = window.open("");
+        demoSite.document.write(`<!DOCTYPE html>
+    <html>
+        <head>
+            <title>2D Map Navigation</title>
+            <meta charset="UTF-8">
+            <meta id="viewport" content="width=device-width, initial-scale=2.0">
+            <link rel="stylesheet" href="style.css">         
+        </head>
+        <body>
+            <div class="main"> 
+    
+                <p>Click first square and then second square to start your journey.<br />This app will generete shortes way.</p>
+                <p id="result">GPS:</p>
+                <div id="map">
+    
+                    <!-- Here will be the map -->
+    
+                </div>
+                
+                <script src="script.js"></script>
+                <script src="navigation.js"></script>
+                <script src="showMeTheWay.js"></script>            
+    
+            </div>
+        </body>
+    </html>`);
+        console.log("Juhhuuu!");
+    }
+    exports_16("default", demo);
+    async function getIndexFile() {
+        const URL = "../../2D-map-navigation/index.html";
+        try {
+            const response = await fetch(`${URL}`);
+            if (response.ok) {
+                console.log(response.url);
+                return await response;
+            }
+            throw Error('Response not 200/ no demo file found');
+        }
+        catch (err) {
+            console.log(err);
+            return '';
+        }
+    }
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/service", "https://deno.land/x/rimu/mod", "file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/repos/demo"], function (exports_17, context_17) {
+    "use strict";
+    var service_ts_1, rimu, demo_ts_1;
     var __moduleName = context_17 && context_17.id;
     return {
         setters: [
-            function (mod_ts_1_1) {
-                mod_ts_1 = mod_ts_1_1;
-            },
-            function (service_ts_2_1) {
-                service_ts_2 = service_ts_2_1;
+            function (service_ts_1_1) {
+                service_ts_1 = service_ts_1_1;
             },
             function (rimu_1) {
                 rimu = rimu_1;
+            },
+            function (demo_ts_1_1) {
+                demo_ts_1 = demo_ts_1_1;
             }
         ],
         execute: function () {
-            service_ts_2.getAboutMe().then((bio) => {
+            service_ts_1.getAboutMe().then((bio) => {
                 const md = document.createElement('about-me');
                 const main = document.getElementsByTagName("main");
                 md.innerHTML = rimu.render(bio);
                 main[0].appendChild(md);
             });
-            mod_ts_1.default().then((repos) => {
-                const reposComponent = document.createElement('repos');
-                const main = document.getElementsByTagName("main");
-                const p = document.createElement("p");
-                p.innerHTML = "Check out few of my filtered github repos serverd by the github api:";
-                const reposList = document.createElement("ul");
-                repos.forEach((repo) => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: ${repo.language}<br />Description: ${repo.description} [ demo ]`;
-                    reposList.appendChild(li);
-                });
-                reposComponent.appendChild(reposList);
-                reposComponent.insertBefore(p, reposList);
-                main[0].appendChild(reposComponent);
-            });
+            window.onload = function buttonClick() {
+                const button = document.getElementById("demo");
+                button.addEventListener("click", (e) => demo_ts_1.default());
+            };
         }
     };
 });

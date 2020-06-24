@@ -1,0 +1,28 @@
+#map {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 1px;
+    margin: auto;
+}
+.row {
+    display: table-row;
+    background-color: beige;
+}
+.square {
+    display: table-cell;
+    width: 15px;
+    height: 15px;
+    background-color: aquamarine;
+}
+#way {
+    background-color: yellow;
+}
+#start {
+    background-color: green;
+}
+#end {
+    background-color: red;
+}
+button {
+    width: 120px;    
+}
