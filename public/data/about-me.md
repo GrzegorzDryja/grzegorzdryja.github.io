@@ -6,5 +6,6 @@ Finished economy stydies, and for over a decade I've worked as an e-commerce sal
 2015 was my breakpoint. I've started passionate about coding, lot's of free time I was spending on online courses, start reading IT webs and books, went for IT conferences.  
 Now progressing my codding skills in full-time and searching for my next job, of course most willingly in IT.
 
-Ready to work remotly from Radom, I've got some nice office to work from here. But 100 km is no problem for me - Warsaw, Kielce, Krakow, Lodz.  
+Ready to work remotly from Radom, I've got some nice office to work from here. But 100 km is no problem for me - Warsaw, Kielce, Krakow, Lodz.
+
 Privtely: father, skier, saveing money for first gravel bike, waiting for next trip... Mountains are calling.  
