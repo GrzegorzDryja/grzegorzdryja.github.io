@@ -107,7 +107,6 @@ let System, __instantiateAsync, __instantiate;
   };
 })();
 
-"use strict";
 System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/model", [], function (exports_1, context_1) {
     "use strict";
     var GitHubRepo;
@@ -2200,15 +2199,32 @@ System.register("https://deno.land/x/rimu/mod", ["https://deno.land/x/rimu/src/d
         }
     };
 });
-// export default async function demo(){
-//     const demoIndex = await getIndexFile();
-//     const url = "";
-//     const demoSite = window.open("");  
-// }
-System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/mod", "file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/service", "https://deno.land/x/rimu/mod"], function (exports_17, context_17) {
+System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/demo", [], function (exports_17, context_17) {
     "use strict";
-    var mod_ts_1, service_ts_2, rimu;
     var __moduleName = context_17 && context_17.id;
+    function checkDemoFiles(name) {
+        const url = `./data/${name}/index.html`;
+        const xhr = new XMLHttpRequest();
+        xhr.open('HEAD', url, false);
+        xhr.send();
+        if (xhr.status == 404) {
+            return ``;
+        }
+        else {
+            return `<a onclick=window.open("./data/${name}/index.html")>[ demo ]</a>`;
+        }
+    }
+    exports_17("default", checkDemoFiles);
+    return {
+        setters: [],
+        execute: function () {
+        }
+    };
+});
+System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/mod", "file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/service", "https://deno.land/x/rimu/mod", "file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/demo"], function (exports_18, context_18) {
+    "use strict";
+    var mod_ts_1, service_ts_2, rimu, demo_ts_1;
+    var __moduleName = context_18 && context_18.id;
     return {
         setters: [
             function (mod_ts_1_1) {
@@ -2219,6 +2235,9 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
             },
             function (rimu_1) {
                 rimu = rimu_1;
+            },
+            function (demo_ts_1_1) {
+                demo_ts_1 = demo_ts_1_1;
             }
         ],
         execute: function () {
@@ -2232,11 +2251,12 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
                 const reposComponent = document.createElement('repos');
                 const main = document.getElementsByTagName("main");
                 const p = document.createElement("p");
-                p.innerHTML = "Check out few of my filtered github repos serverd by the github api:";
+                p.innerHTML = "Check out few of my repos served by the github api:";
                 const reposList = document.createElement("ul");
                 repos.forEach((repo) => {
                     const li = document.createElement("li");
-                    li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: ${repo.language}<br />Description: ${repo.description} <a onclick=window.open("./data/${repo.name}/index.html")>[ demo ]</a>`;
+                    const demo = demo_ts_1.default(repo.name);
+                    li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: <span>${repo.language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
                     reposList.appendChild(li);
                 });
                 reposComponent.appendChild(reposList);

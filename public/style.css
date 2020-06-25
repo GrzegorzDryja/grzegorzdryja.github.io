@@ -24,6 +24,14 @@
   main {
     padding-bottom: 2.5rem;
   }
+  about-me {
+    width: 45em;
+    display: block
+  }
+  repos {
+    width: 45em;
+    display: block
+  }
   footer {
     position: absolute;
     bottom: 0;
@@ -122,6 +130,10 @@
   
   label {
     white-space: pre;
+  }
+
+  span {
+    color: yellow;
   }
   
   .submit {

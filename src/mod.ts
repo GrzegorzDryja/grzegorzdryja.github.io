@@ -2,7 +2,7 @@
 import showRepos from "../github/mod.ts";
 import { getAboutMe } from "../github/service.ts";
 import * as rimu from "https://deno.land/x/rimu/mod.ts";
-import demo from "../repos/demo.ts";
+import checkDemoFiles from "../github/demo.ts";
 
 getAboutMe().then((bio) => {    
     const md = document.createElement('about-me');
@@ -20,7 +20,8 @@ showRepos().then((repos) => {
 
     repos.forEach((repo: any) => {               
         const li = document.createElement("li");
-        li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: ${repo.language}<br />Description: ${repo.description} <a onclick=window.open("./data/${repo.name}/index.html")>[ demo ]</a>`;
+        const demo = checkDemoFiles(repo.name);
+        li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: <span>${repo.language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
         reposList.appendChild(li);
     });
     reposComponent.appendChild(reposList);
