@@ -1,0 +1,21 @@
+/* 
+    Author: Grzegorz Dryja
+*/
+
+input {
+    width: 30px;
+    padding: 5px 0px 5px 10px;
+    
+}
+button {
+    width: 120px;
+    
+}
+div {
+	display: table;
+}
+
+.center {
+  margin: auto;
+}
+
