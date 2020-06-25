@@ -172,7 +172,7 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/servi
         ],
         execute: function () {
             REPOS_URL = 'https://api.github.com/users/grzegorzdryja/repos';
-            RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/data/';
+            RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/master/data/';
             FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders'];
             convert = ({ name, html_url, language, description }) => new model_ts_1.GitHubRepo({
                 name,
