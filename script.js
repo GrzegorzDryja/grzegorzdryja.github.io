@@ -2251,7 +2251,7 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
                 const reposComponent = document.createElement('repos');
                 const main = document.getElementsByTagName("main");
                 const p = document.createElement("p");
-                p.innerHTML = "Check out few of my repos served by the github api:";
+                p.innerHTML = "Check out a few of my repos served by the github api:";
                 const reposList = document.createElement("ul");
                 repos.forEach((repo) => {
                     const li = document.createElement("li");
