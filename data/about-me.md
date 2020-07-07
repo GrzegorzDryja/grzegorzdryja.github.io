@@ -1,5 +1,5 @@
 # Hello World!  
-My name is Grzegorz. Self-learning developer, excited about useing TypeScript in both: front- and backend. Practiced with HTML, CSS, JavaScript, TypeScript and a really, really little bit of C# in small exercises. Around tech from 2004.
+My name is Grzegorz. Self-learning developer, excited about useing TypeScript in both: front- and backend. Practiced with HTML, CSS, JavaScript, TypeScript and a really, really little bit of C# in small exercises. Around tech since 2004.
 
 I had my first contact with developing in 2004 when I had to make an online photogallery in my first job. It was a PHP script downloaded from web. Then, as a skateboard veteran I did some www for the local skate contest (html, CSS). I had some skill to do this so in my next job I configured an online shop from ZEN Cart sciprts. In 2013 my Allegro's (biggest sales platform in Poland) template was honored at the Allegro training for e-commerce. That was the time when I knew how to build html pages as a table and I thought PHP rules the world. Nothing exciting. At this point I didn't feel that programming was the way for my career.  
 
