@@ -2245,26 +2245,37 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
                 const markdown = document.createElement("about-me");
                 const main = document.getElementsByTagName("main");
                 const fullBio = rimu.render(bio);
+                let status = "show";
                 markdown.innerHTML = fullBio.slice(0, 263) + "...";
                 main[0].appendChild(markdown);
-                const readFullBioButton = document.createElement("a");
-                readFullBioButton.innerHTML = "[ show full bio ]";
-                readFullBioButton.setAttribute("id", "fullBioButton");
-                markdown.appendChild(readFullBioButton);
-                document.getElementById("fullBioButton").addEventListener("click", () => {
-                    markdown.removeChild(readFullBioButton);
-                    markdown.innerHTML += fullBio.slice(264);
-                    readFullBioButton.innerHTML = "[ hide full bio ]";
-                    readFullBioButton.setAttribute("id", "hideBioButton");
-                    markdown.appendChild(readFullBioButton);
-                    document.getElementById("hideBioButton").addEventListener("click", () => {
-                        markdown.removeChild(readFullBioButton);
-                        markdown.innerHTML = fullBio.slice(0, 263);
-                        readFullBioButton.innerHTML = "[ show full bio ]";
-                        readFullBioButton.setAttribute("id", "fullBioButton");
-                        markdown.appendChild(readFullBioButton);
-                    });
+                const button = document.createElement("a");
+                button.innerHTML = status === "show" ? "[ show full bio ]" : "[ hide full bio ]";
+                button.setAttribute("id", status);
+                markdown.appendChild(button);
+                document.getElementById(status).addEventListener("click", () => {
+                    if (status == "show") {
+                        markdown.removeChild(button);
+                        markdown.innerHTML += fullBio.slice(264);
+                        status = "hide";
+                        button.innerHTML = status === "show" ? "[ show full bio ]" : "[ hide full bio ]";
+                        button.setAttribute("id", status);
+                        markdown.appendChild(button);
+                    }
+                    else {
+                        markdown.innerHTML = fullBio.slice(0, 263) + "...";
+                        status = "show";
+                        button.innerHTML = status === "show" ? "[ show full bio ]" : "[ hide full bio ]";
+                        button.setAttribute("id", status);
+                        markdown.appendChild(button);
+                    }
                 });
+                // document.getElementById("hideBioButton").addEventListener("click", () => {  
+                //     markdown.removeChild(readFullBioButton);      
+                //     markdown.innerHTML = fullBio.slice(0, 263);
+                //     readFullBioButton.innerHTML ="[ show full bio ]";
+                //     readFullBioButton.setAttribute("id", "fullBioButton");
+                //     markdown.appendChild(readFullBioButton);
+                // })
             });
             mod_ts_1.default().then((repos) => {
                 const reposComponent = document.createElement("repos");
