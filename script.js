@@ -2256,7 +2256,8 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
                 repos.forEach((repo) => {
                     const li = document.createElement("li");
                     const demo = demo_ts_1.default(repo.name);
-                    li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: <span>${repo.language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
+                    const language = repo.language || "in develop";
+                    li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: <span>${language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
                     reposList.appendChild(li);
                 });
                 reposComponent.appendChild(reposList);
