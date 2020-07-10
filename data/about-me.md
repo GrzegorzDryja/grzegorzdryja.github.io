@@ -5,7 +5,7 @@ I had my first contact with developing in 2004 when I had to make an online phot
 
 I finished studies in economics, and for over a decade I worked as an e-commerce sales specialist. But IT has always been near to my duties: www, online-shop, SQL, ERP administrator. I was always the dude to make things work with all tech stuff in office.  
 
-2015 was my breakpoint. I started to believe that I could be indeed excellent programmer. I was spending a good deal of time on online courses, started reading IT webs, podcasts and books, attended IT conferences.
+2015 was my breakpoint. I started to believe that I could be indeed excellent programmer. I was spending a good deal of time on online courses (udemy.com, strefa kursów.pl), SoloLearn app, started reading IT webs, podcasts and books, attended IT conferences.
 
 Now progressing my coding skills in full-time mostly working with Deno runtime, practicing module, OOP programming with TypeScript, but Node.js is around to. Searching for my next job, of course most willingly in IT. 
 
