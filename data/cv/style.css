@@ -1,0 +1,172 @@
+.color {
+    color: rgb(42, 185, 147);
+}
+i.les {
+    opacity: 0.2;
+}
+
+#page {
+    font-family: "Poppins";
+    font-size: 0.8em;
+    width: 210mm;
+    height: 297mm;
+    padding: 0.5cm 0.8cm 0.5cm 0.5cm;
+    margin: 0cm 0cm 0cm 0cm;
+    border: 0px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#header {
+    display: flex;
+}
+
+h1 {
+    font-size: 4.5em;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+h2, h3, h4, h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+h4, h5 {
+    display: inline;
+}
+
+h5 {
+    float: right;
+    font-weight: 300;
+}
+
+#name {
+    padding-left: 35px;
+}
+
+#main {
+    display: flex;
+}
+
+#left div {
+    margin-top: 20px;
+}
+
+#left {
+    width: 32%;
+}
+
+#right {
+    width: 68%;
+    margin-top: 20px;
+}
+
+#right p {
+    margin-top: 0;
+    font-size: 0.9em;
+}
+.jobs {
+ display: flex;
+ align-items: stretch;
+}
+
+.job-content{
+    flex-grow: 1;
+    margin-left: 5px;
+}
+
+.time-lap {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+}
+.time-lap-circle {
+flex-grow: 0;
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 1em;
+    background-color:rgb(42, 185, 147);
+    margin: 7px 0 5px 0;
+}
+
+.time-lap-line {
+    flex-grow: 1;
+    width: .3em;
+    background: #000;
+    opacity: .1;
+    margin-left: 3px;
+    margin-top: auto;
+    }
+
+.education {
+        display: flex;
+        align-items: stretch;
+       }
+
+.school{
+    flex-grow: 1;
+    margin-left: 5px;
+
+}
+.course {
+    padding-top: 5px;
+}
+
+.course h4  {
+    display: inline;
+    font-weight: 600;
+}
+
+img {
+    border-radius: 50%;
+  }
+
+#left p {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+ul {
+    margin-top: 0;
+    padding-left: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+i {
+    font-size: 1em;
+    vertical-align: 0em;
+    padding-right: 1px;
+}
+
+span, a {
+    padding-left: 5px;
+}
+
+#tech-stack i {
+    font-size: 0.5em;
+    vertical-align: middle;
+}
+
+#education, #interests, #courses {
+    margin-top: 15px;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0px;
+    padding-right: 0.8cm;
+}
+
+#footer p {
+    font-size: 0.75em;
+    color: grey;
+    text-align: center;
+}
