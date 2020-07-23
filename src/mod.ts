@@ -9,7 +9,7 @@ getAboutMe().then((bio) => {
     const main = document.getElementsByTagName("main");
     const fullBio = rimu.render(bio);
     let status = "show";   
-    markdown.innerHTML = fullBio.slice(0, 263) + "...";
+    markdown.innerHTML = fullBio.slice(0, 264) + "...";
     main[0].appendChild(markdown);
      
     const button = document.createElement("a");
@@ -33,15 +33,6 @@ getAboutMe().then((bio) => {
             markdown.appendChild(button) 
         }
     })
-
-    // document.getElementById("hideBioButton").addEventListener("click", () => {  
-    //     markdown.removeChild(readFullBioButton);      
-    //     markdown.innerHTML = fullBio.slice(0, 263);
-    //     readFullBioButton.innerHTML ="[ show full bio ]";
-    //     readFullBioButton.setAttribute("id", "fullBioButton");
-    //     markdown.appendChild(readFullBioButton);
-    // })
-
 });
 
 showRepos().then((repos) => {
