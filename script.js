@@ -2246,7 +2246,7 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
                 const main = document.getElementsByTagName("main");
                 const fullBio = rimu.render(bio);
                 let status = "show";
-                markdown.innerHTML = fullBio.slice(0, 263) + "...";
+                markdown.innerHTML = fullBio.slice(0, 264) + "...";
                 main[0].appendChild(markdown);
                 const button = document.createElement("a");
                 button.innerHTML = status === "show" ? "[ show full bio ]" : "[ hide full bio ]";
@@ -2269,13 +2269,6 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
                         markdown.appendChild(button);
                     }
                 });
-                // document.getElementById("hideBioButton").addEventListener("click", () => {  
-                //     markdown.removeChild(readFullBioButton);      
-                //     markdown.innerHTML = fullBio.slice(0, 263);
-                //     readFullBioButton.innerHTML ="[ show full bio ]";
-                //     readFullBioButton.setAttribute("id", "fullBioButton");
-                //     markdown.appendChild(readFullBioButton);
-                // })
             });
             mod_ts_1.default().then((repos) => {
                 const reposComponent = document.createElement("repos");
