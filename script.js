@@ -6,8 +6,7 @@
 
 // @ts-nocheck
 /* eslint-disable */
-let System, __instantiateAsync, __instantiate;
-
+let System, __instantiate;
 (() => {
   const r = new Map();
 
@@ -16,7 +15,6 @@ let System, __instantiateAsync, __instantiate;
       r.set(id, { d, f, exp: {} });
     },
   };
-
   async function dI(mid, src) {
     let id = mid.replace(/\.\w+$/i, "");
     if (id.includes("./")) {
@@ -93,17 +91,10 @@ let System, __instantiateAsync, __instantiate;
     }
     return m.exp;
   }
-
-  __instantiateAsync = async (m) => {
-    System = __instantiateAsync = __instantiate = undefined;
+  __instantiate = (m, a) => {
+    System = __instantiate = undefined;
     rF(m);
-    return gExpA(m);
-  };
-
-  __instantiate = (m) => {
-    System = __instantiateAsync = __instantiate = undefined;
-    rF(m);
-    return gExp(m);
+    return a ? gExpA(m) : gExp(m);
   };
 })();
 
@@ -173,7 +164,7 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/github/servi
         execute: function () {
             REPOS_URL = 'https://api.github.com/users/grzegorzdryja/repos';
             RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/master/data/';
-            FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders'];
+            FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders', 'JS_Paint'];
             convert = ({ name, html_url, language, description }) => new model_ts_1.GitHubRepo({
                 name,
                 html_url,
@@ -211,12 +202,9 @@ System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4,
         execute: function () {
             Reader = class Reader {
                 constructor(text) {
-                    text = text.replace("\u0000", " "); // Used internally by spans package.
-                    text = text.replace("\u0001", " "); // Used internally by spans package.
-                    text = text.replace("\u0002", " "); // Used internally by macros package.
-                    // Split lines on newline boundaries.
-                    // http://stackoverflow.com/questions/1155678/javascript-string-newline-character
-                    // Split is broken on IE8 e.g. 'X\n\nX'.split(/\n/g).length) returns 2 but should return 3.
+                    text = text.replace("\u0000", " ");
+                    text = text.replace("\u0001", " ");
+                    text = text.replace("\u0002", " ");
                     this.lines = text.split(/\r\n|\r|\n/g);
                     this.pos = 0;
                 }
@@ -228,20 +216,13 @@ System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4,
                     console.assert(!this.eof());
                     this.lines[this.pos] = value;
                 }
-                // Return true if the cursor has advanced over all input lines.
                 eof() {
                     return this.pos >= this.lines.length;
                 }
-                // Move cursor to next input line.
                 next() {
                     if (!this.eof())
                         this.pos++;
                 }
-                // Read to the first line matching the re.
-                // Return the array of lines preceding the match plus a line containing
-                // the $1 match group (if it exists).
-                // Return null if an EOF is encountered.
-                // Exit with the reader pointing to the line following the match.
                 readTo(find) {
                     let result = [];
                     let match = null;
@@ -249,7 +230,7 @@ System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4,
                         match = this.cursor.match(find);
                         if (match) {
                             if (match[1] !== undefined) {
-                                result.push(match[1]); // $1
+                                result.push(match[1]);
                             }
                             this.next();
                             break;
@@ -257,7 +238,6 @@ System.register("https://deno.land/x/rimu/src/deno/io", [], function (exports_4,
                         result.push(this.cursor);
                         this.next();
                     }
-                    // Blank line matches EOF.
                     if (match || (find.toString() === "/^$/" && this.eof())) {
                         return result;
                     }
@@ -291,47 +271,34 @@ System.register("https://deno.land/x/rimu/src/deno/quotes", ["https://deno.land/
     "use strict";
     var Utils, defs, DEFAULT_DEFS, quotesRe, unescapeRe;
     var __moduleName = context_5 && context_5.id;
-    // Reset definitions to defaults.
     function init() {
         defs = DEFAULT_DEFS.map((def) => Utils.copy(def));
         initializeRegExps();
     }
     exports_5("init", init);
-    // Synthesise re's to find and unescape quotes.
     function initializeRegExps() {
         let quotes = defs.map((def) => Utils.escapeRegExp(def.quote));
-        // $1 is quote character(s), $2 is quoted text.
-        // Quoted text cannot begin or end with whitespace.
-        // Quoted can span multiple lines.
-        // Quoted text cannot end with a backslash.
         exports_5("quotesRe", quotesRe = RegExp("\\\\?(" + quotes.join("|") + ")([^\\s\\\\]|\\S[\\s\\S]*?[^\\s\\\\])\\1", "g"));
-        // $1 is quote character(s).
         unescapeRe = RegExp("\\\\(" + quotes.join("|") + ")", "g");
     }
     exports_5("initializeRegExps", initializeRegExps);
-    // Return the quote definition corresponding to 'quote' character, return undefined if not found.
     function getDefinition(quote) {
         return defs.filter((def) => def.quote === quote)[0];
     }
     exports_5("getDefinition", getDefinition);
-    // Strip backslashes from quote characters.
     function unescape(s) {
         return s.replace(unescapeRe, "$1");
     }
     exports_5("unescape", unescape);
-    // Update existing or add new quote definition.
     function setDefinition(def) {
         for (let d of defs) {
             if (d.quote === def.quote) {
-                // Update existing definition.
                 d.openTag = def.openTag;
                 d.closeTag = def.closeTag;
                 d.spans = def.spans;
                 return;
             }
         }
-        // Double-quote definitions are prepended to the array so they are matched
-        // before single-quote definitions (which are appended to the array).
         if (def.quote.length === 2) {
             defs.unshift(def);
         }
@@ -399,26 +366,21 @@ System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno
     "use strict";
     var Options, Utils, defs, DEFAULT_DEFS;
     var __moduleName = context_6 && context_6.id;
-    // Reset definitions to defaults.
     function init() {
         exports_6("defs", defs = DEFAULT_DEFS.map((def) => Utils.copy(def)));
     }
     exports_6("init", init);
-    // Update existing or add new replacement definition.
     function setDefinition(regexp, flags, replacement) {
         if (!/g/.test(flags)) {
             flags += "g";
         }
         for (let def of defs) {
             if (def.match.source === regexp) {
-                // Update existing definition.
-                // Flag properties are read-only so have to create new RegExp.
                 def.match = new RegExp(regexp, flags);
                 def.replacement = replacement;
                 return;
             }
         }
-        // Append new definition to end of defs list (custom definitons have lower precedence).
         defs.push({ match: new RegExp(regexp, flags), replacement: replacement });
     }
     exports_6("setDefinition", setDefinition);
@@ -433,12 +395,6 @@ System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno
         ],
         execute: function () {
             DEFAULT_DEFS = [
-                // Begin match with \\? to allow the replacement to be escaped.
-                // Global flag must be set on match re's so that the RegExp lastIndex property is set.
-                // Replacements and special characters are expanded in replacement groups ($1..).
-                // Replacement order is important.
-                // DEPRECATED as of 3.4.0.
-                // Anchor: <<#id>>
                 {
                     match: /\\?<<#([a-zA-Z][\w\-]*)>>/g,
                     replacement: '<span id="$1"></span>',
@@ -446,96 +402,67 @@ System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno
                         if (Options.skipBlockAttributes()) {
                             return "";
                         }
-                        // Default (non-filter) replacement processing.
                         return Utils.replaceMatch(match, this.replacement);
                     },
                 },
-                // Image: <image:src|alt>
-                // src = $1, alt = $2
                 {
                     match: /\\?<image:([^\s|]+)\|([^]*?)>/g,
                     replacement: '<img src="$1" alt="$2">',
                 },
-                // Image: <image:src>
-                // src = $1, alt = $1
                 {
                     match: /\\?<image:([^\s|]+?)>/g,
                     replacement: '<img src="$1" alt="$1">',
                 },
-                // Image: ![alt](url)
-                // alt = $1, url = $2
                 {
                     match: /\\?!\[([^[]*?)]\((\S+?)\)/g,
                     replacement: '<img src="$2" alt="$1">',
                 },
-                // Email: <address|caption>
-                // address = $1, caption = $2
                 {
                     match: /\\?<(\S+@[\w.\-]+)\|([^]+?)>/g,
                     replacement: '<a href="mailto:$1">$$2</a>',
                 },
-                // Email: <address>
-                // address = $1, caption = $1
                 {
                     match: /\\?<(\S+@[\w.\-]+)>/g,
                     replacement: '<a href="mailto:$1">$1</a>',
                 },
-                // Link: [caption](url)
-                // caption = $1, url = $2
                 {
                     match: /\\?\[([^[]*?)]\((\S+?)\)/g,
                     replacement: '<a href="$2">$$1</a>',
                 },
-                // Link: <url|caption>
-                // url = $1, caption = $2
                 {
                     match: /\\?<(\S+?)\|([^]*?)>/g,
                     replacement: '<a href="$1">$$2</a>',
                 },
-                // HTML inline tags.
-                // Match HTML comment or HTML tag.
-                // $1 = tag, $2 = tag name
                 {
                     match: /\\?(<!--(?:[^<>&]*)?-->|<\/?([a-z][a-z0-9]*)(?:\s+[^<>&]+)?>)/ig,
                     replacement: "",
                     filter: function (match) {
-                        return Options.htmlSafeModeFilter(match[1]); // Matched HTML comment or inline tag.
+                        return Options.htmlSafeModeFilter(match[1]);
                     },
                 },
-                // Link: <url>
-                // url = $1
                 {
                     match: /\\?<([^|\s]+?)>/g,
                     replacement: '<a href="$1">$1</a>',
                 },
-                // Auto-encode (most) raw HTTP URLs as links.
                 {
                     match: /\\?((?:http|https):\/\/[^\s"']*[A-Za-z0-9/#])/g,
                     replacement: '<a href="$1">$1</a>',
                 },
-                // Character entity.
                 {
                     match: /\\?(&[\w#][\w]+;)/g,
                     replacement: "",
                     filter: function (match) {
-                        return match[1]; // Pass the entity through verbatim.
+                        return match[1];
                     },
                 },
-                // Line-break (space followed by \ at end of line).
                 {
                     match: /[\\ ]\\(\n|$)/g,
                     replacement: "<br>$1",
                 },
-                // This hack ensures backslashes immediately preceding closing code quotes are rendered
-                // verbatim (Markdown behaviour).
-                // Works by finding escaped closing code quotes and replacing the backslash and the character
-                // preceding the closing quote with itself.
                 {
                     match: /(\S\\)(?=`)/g,
                     replacement: "$1",
                 },
-                // This hack ensures underscores within words rendered verbatim and are not treated as
-                // underscore emphasis quotes (GFM behaviour).
                 {
                     match: /([a-zA-Z0-9]_)(?=[a-zA-Z0-9])/g,
                     replacement: "$1",
@@ -544,19 +471,6 @@ System.register("https://deno.land/x/rimu/src/deno/replacements", ["https://deno
         }
     };
 });
-/*
- This module renders inline text containing Quote and Replacement elements.
-
- Quote and replacement processing involves splitting the source text into
- fragments where at the points where quotes and replacements occur then splicing fragments
- containing output markup into the breaks. A fragment is flagged as 'done' to
- exclude it from further processing.
-
- Once all quotes and replacements are processed fragments not yet flagged as
- 'done' have special characters (&, <, >) replaced with corresponding special
- character entities. The fragments are then reassembled (defraged) into a
- resultant HTML string.
- */
 System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x/rimu/src/deno/quotes", "https://deno.land/x/rimu/src/deno/replacements", "https://deno.land/x/rimu/src/deno/utils"], function (exports_7, context_7) {
     "use strict";
     var Quotes, Replacements, Utils, savedReplacements;
@@ -571,24 +485,20 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
         return postReplacements(result);
     }
     exports_7("render", render);
-    // Converts fragments to a string.
     function defrag(fragments) {
         return fragments.reduce((result, fragment) => result + fragment.text, "");
     }
-    // Fragment quotes in all fragments and return resulting fragments array.
     function fragQuotes(fragments) {
         let result;
         result = [];
         fragments.forEach((fragment) => {
             result.push.apply(result, fragQuote(fragment));
         });
-        // Strip backlash from escaped quotes in non-done fragments.
         result
             .filter((fragment) => !fragment.done)
             .forEach((fragment) => fragment.text = Quotes.unescape(fragment.text));
         return result;
     }
-    // Fragment quotes in a single fragment and return resulting fragments array.
     function fragQuote(fragment) {
         if (fragment.done) {
             return [fragment];
@@ -601,22 +511,15 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
             if (!match) {
                 return [fragment];
             }
-            // Check if quote is escaped.
             if (match[0][0] === "\\") {
-                // Restart search after escaped opening quote.
                 quotesRe.lastIndex = match.index + match[1].length + 1;
                 continue;
             }
             break;
         }
         let result = [];
-        // Arrive here if we have a matched quote.
-        // The quote splits the input fragment into 5 or more output fragments:
-        // Text before the quote, left quote tag, quoted text, right quote tag and text after the quote.
         let def = Quotes.getDefinition(match[1]);
-        // Check for same closing quote one character further to the right.
         while (fragment.text[quotesRe.lastIndex] === match[1][0]) {
-            // Move to closing quote one character to right.
             match[2] += match[1][0];
             quotesRe.lastIndex += 1;
         }
@@ -626,38 +529,30 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
         result.push({ text: before, done: false });
         result.push({ text: def.openTag, done: true });
         if (!def.spans) {
-            // Spans are disabled so render the quoted text verbatim.
             quoted = Utils.replaceSpecialChars(quoted);
-            quoted = quoted.replace(/\u0000/g, "\u0001"); // Flag replacements as verbatim.
+            quoted = quoted.replace(/\u0000/g, "\u0001");
             result.push({ text: quoted, done: true });
         }
         else {
-            // Recursively process the quoted text.
             result.push.apply(result, fragQuote({ text: quoted, done: false }));
         }
         result.push({ text: def.closeTag, done: true });
-        // Recursively process the following text.
         result.push.apply(result, fragQuote({ text: after, done: false }));
         return result;
     }
-    // Return text with replacements replaced with a placeholder character (see `postReplacements()`):
-    // '\u0000' is placeholder for expanded replacement text.
-    // '\u0001' is placeholder for unexpanded replacement text (replacements that occur within quotes are rendered verbatim).
     function preReplacements(text) {
         savedReplacements = [];
         let fragments = fragReplacements([{ text: text, done: false }]);
-        // Reassemble text with replacement placeholders.
         return fragments.reduce((result, fragment) => {
             if (fragment.done) {
-                savedReplacements.push(fragment); // Save replaced text.
-                return result + "\u0000"; // Placeholder for replaced text.
+                savedReplacements.push(fragment);
+                return result + "\u0000";
             }
             else {
                 return result + fragment.text;
             }
         }, "");
     }
-    // Replace replacements placeholders with replacements text from savedReplacements[].
     function postReplacements(text) {
         return text.replace(/[\u0000\u0001]/g, function (match) {
             let fragment = savedReplacements.shift();
@@ -666,7 +561,6 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
                 : Utils.replaceSpecialChars(fragment.verbatim);
         });
     }
-    // Fragment replacements in all fragments and return resulting fragments array.
     function fragReplacements(fragments) {
         let result;
         Replacements.defs.forEach((def) => {
@@ -678,8 +572,6 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
         });
         return fragments;
     }
-    // Fragment replacements in a single fragment for a single replacement definition.
-    // Return resulting fragments array.
     function fragReplacement(fragment, def) {
         if (fragment.done) {
             return [fragment];
@@ -692,17 +584,11 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
             return [fragment];
         }
         let result = [];
-        // Arrive here if we have a matched replacement.
-        // The replacement splits the input fragment into 3 output fragments:
-        // Text before the replacement, replaced text and text after the replacement.
-        // NOTE: Because this function is called recursively must ensure mutable index and
-        //       lastIndex properties are read before the recursive call.
         let before = match.input.slice(0, match.index);
         let after = match.input.slice(replacementRe.lastIndex);
         result.push({ text: before, done: false });
         let replacement;
         if (match[0][0] === "\\") {
-            // Remove leading backslash.
             replacement = Utils.replaceSpecialChars(match[0].slice(1));
         }
         else {
@@ -714,12 +600,10 @@ System.register("https://deno.land/x/rimu/src/deno/spans", ["https://deno.land/x
             }
         }
         result.push({ text: replacement, done: true, verbatim: match[0] });
-        // Recursively process the remaining text.
         result.push.apply(result, fragReplacement({ text: after, done: false }, def));
         return result;
     }
     function fragSpecials(fragments) {
-        // Replace special characters in all non-done fragments.
         fragments
             .filter((fragment) => !fragment.done)
             .forEach((fragment) => fragment.text = Utils.replaceSpecialChars(fragment.text));
@@ -744,7 +628,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
     "use strict";
     var DelimitedBlocks, Macros, Options, Spans, BlockAttributes;
     var __moduleName = context_8 && context_8.id;
-    // http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
     function escapeRegExp(s) {
         return s.replace(/[\-\/\\^$*+?.()|\[\]{}]/g, "\\$&");
     }
@@ -755,20 +638,16 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
             .replace(/</g, "&lt;");
     }
     exports_8("replaceSpecialChars", replaceSpecialChars);
-    // Replace pattern '$1' or '$$1', '$2' or '$$2'... in `replacement` with corresponding match groups
-    // from `match`. If pattern starts with one '$' character add specials to `expansionOptions`,
-    // if it starts with two '$' characters add spans to `expansionOptions`.
     function replaceMatch(match, replacement, expansionOptions = {}) {
         return replacement.replace(/(\${1,2})(\d)/g, function () {
-            // Replace $1, $2 ... with corresponding match groups.
             if (arguments[1] === "$$") {
                 expansionOptions.spans = true;
             }
             else {
                 expansionOptions.specials = true;
             }
-            let i = Number(arguments[2]); // match group number.
-            let result = match[i]; // match group text.
+            let i = Number(arguments[2]);
+            let result = match[i];
             if (result === undefined) {
                 Options.errorCallback("undefined replacement group: " + arguments[0]);
                 return "";
@@ -777,7 +656,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
         });
     }
     exports_8("replaceMatch", replaceMatch);
-    // Shallow object clone.
     function copy(source) {
         let result = {};
         for (let key in source) {
@@ -788,19 +666,16 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
         return result;
     }
     exports_8("copy", copy);
-    // Copy properties in source object to target object.
     function merge(target, source) {
         for (let key in source) {
             target[key] = source[key];
         }
     }
     exports_8("merge", merge);
-    // Replace the inline elements specified in options in text and return the result.
     function replaceInline(text, expansionOptions) {
         if (expansionOptions.macros) {
             text = Macros.render(text);
         }
-        // Spans also expand special characters.
         if (expansionOptions.spans) {
             text = Spans.render(text);
         }
@@ -826,10 +701,8 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
             }
         ],
         execute: function () {
-            // Global Block Attributes state (namespace "singleton", see http://stackoverflow.com/a/30174360).
             (function (BlockAttributes) {
-                let ids // List of allocated HTML ids.
-                ;
+                let ids;
                 function init() {
                     BlockAttributes.classes = "";
                     BlockAttributes.id = "";
@@ -840,8 +713,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                 }
                 BlockAttributes.init = init;
                 function parse(match) {
-                    // Parse Block Attributes.
-                    // class names = $1, id = $2, css-properties = $3, html-attributes = $4, block-options = $5
                     let text = match[0];
                     text = replaceInline(text, { macros: true });
                     let m = /^\\?\.((?:\s*[a-zA-Z][\w\-]*)+)*(?:\s*)?(#[a-zA-Z][\w\-]*\s*)?(?:\s*)?(?:"(.+?)")?(?:\s*)?(\[.+])?(?:\s*)?([+-][ \w+-]+)?$/
@@ -850,20 +721,20 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                         return false;
                     }
                     if (!Options.skipBlockAttributes()) {
-                        if (m[1]) { // HTML element class names.
+                        if (m[1]) {
                             BlockAttributes.classes += " " + m[1].trim();
                             BlockAttributes.classes = BlockAttributes.classes.trim();
                         }
-                        if (m[2]) { // HTML element id.
+                        if (m[2]) {
                             BlockAttributes.id = m[2].trim().slice(1);
                         }
-                        if (m[3]) { // CSS properties.
+                        if (m[3]) {
                             if (BlockAttributes.css && BlockAttributes.css.substr(-1) !== ";")
                                 BlockAttributes.css += ";";
                             BlockAttributes.css += " " + m[3].trim();
                             BlockAttributes.css = BlockAttributes.css.trim();
                         }
-                        if (m[4] && !Options.isSafeModeNz()) { // HTML attributes.
+                        if (m[4] && !Options.isSafeModeNz()) {
                             BlockAttributes.attributes += " " + m[4].slice(1, m[4].length - 1).trim();
                             BlockAttributes.attributes = BlockAttributes.attributes.trim();
                         }
@@ -872,8 +743,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                     return true;
                 }
                 BlockAttributes.parse = parse;
-                // Inject HTML attributes from attrs into the opening tag.
-                // Consume HTML attributes unless the 'tag' argument is blank.
                 function inject(tag, consume = true) {
                     if (!tag) {
                         return tag;
@@ -882,7 +751,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                     if (BlockAttributes.classes) {
                         let re = /^(<[^>]*class=")(.*?)"/i;
                         if (re.test(tag)) {
-                            // Inject class names into first existing class attribute in first tag.
                             tag = tag.replace(re, `$1${BlockAttributes.classes} $2"`);
                         }
                         else {
@@ -905,7 +773,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                     if (BlockAttributes.css) {
                         let re = /^(<[^>]*style=")(.*?)"/i;
                         if (re.test(tag)) {
-                            // Inject CSS styles into first existing style attribute in first tag.
                             tag = tag.replace(re, function (match, p1, p2) {
                                 p2 = p2.trim();
                                 if (p2 && p2.substr(-1) !== ";")
@@ -929,7 +796,6 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                             tag = before + " " + attrs + after;
                         }
                     }
-                    // Consume the attributes.
                     if (consume) {
                         BlockAttributes.classes = "";
                         BlockAttributes.id = "";
@@ -940,13 +806,13 @@ System.register("https://deno.land/x/rimu/src/deno/utils", ["https://deno.land/x
                 }
                 BlockAttributes.inject = inject;
                 function slugify(text) {
-                    let slug = text.replace(/\W+/g, "-") // Replace non-alphanumeric characters with dashes.
-                        .replace(/-+/g, "-") // Replace multiple dashes with single dash.
-                        .replace(/(^-)|(-$)/g, "") // Trim leading and trailing dashes.
+                    let slug = text.replace(/\W+/g, "-")
+                        .replace(/-+/g, "-")
+                        .replace(/(^-)|(-$)/g, "")
                         .toLowerCase();
                     if (!slug)
                         slug = "x";
-                    if (ids.indexOf(slug) > -1) { // Another element already has that id.
+                    if (ids.indexOf(slug) > -1) {
                         let i = 2;
                         while (ids.indexOf(slug + "-" + i) > -1) {
                             i++;
@@ -965,14 +831,12 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
     "use strict";
     var Api, Utils, safeMode, htmlReplacement, callback;
     var __moduleName = context_9 && context_9.id;
-    // Reset options to default values.
     function init() {
         safeMode = 0;
         htmlReplacement = "<mark>replaced HTML</mark>";
         callback = undefined;
     }
     exports_9("init", init);
-    // Return true if safeMode is non-zero.
     function isSafeModeNz() {
         return safeMode !== 0;
     }
@@ -981,18 +845,12 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
         return safeMode;
     }
     exports_9("getSafeMode", getSafeMode);
-    // Return true if Macro Definitions are ignored.
     function skipMacroDefs() {
-        /* tslint:disable:no-bitwise */
         return safeMode !== 0 && (safeMode & 0x8) === 0;
-        /* tslint:enable:no-bitwise */
     }
     exports_9("skipMacroDefs", skipMacroDefs);
-    // Return true if Block Attribute elements are ignored.
     function skipBlockAttributes() {
-        /* tslint:disable:no-bitwise */
         return (safeMode & 0x4) !== 0;
-        /* tslint:enable:no-bitwise */
     }
     exports_9("skipBlockAttributes", skipBlockAttributes);
     function setSafeMode(value) {
@@ -1033,11 +891,11 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
             }
         }
         if ("callback" in options)
-            callback = options.callback; // Install callback first to ensure option errors are logged.
+            callback = options.callback;
         if ("reset" in options)
-            setReset(options.reset); // Reset takes priority.
+            setReset(options.reset);
         if ("callback" in options)
-            callback = options.callback; // Install callback again in case it has been reset.
+            callback = options.callback;
         if ("safeMode" in options)
             setSafeMode(options.safeMode);
         if ("htmlReplacement" in options) {
@@ -1045,25 +903,21 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
         }
     }
     exports_9("updateOptions", updateOptions);
-    // Set named option value.
     function setOption(name, value) {
         let option = {};
         option[name] = value;
         updateOptions(option);
     }
     exports_9("setOption", setOption);
-    // Filter HTML based on current safeMode.
     function htmlSafeModeFilter(html) {
-        /* tslint:disable:no-bitwise */
         switch (safeMode & 0x3) {
-            /* tslint:enable:no-bitwise */
-            case 0: // Raw HTML (default behavior).
+            case 0:
                 return html;
-            case 1: // Drop HTML.
+            case 1:
                 return "";
-            case 2: // Replace HTML with 'htmlReplacement' option string.
+            case 2:
                 return htmlReplacement;
-            case 3: // Render HTML as text.
+            case 3:
                 return Utils.replaceSpecialChars(html);
             default:
                 return "";
@@ -1076,7 +930,6 @@ System.register("https://deno.land/x/rimu/src/deno/options", ["https://deno.land
         }
     }
     exports_9("errorCallback", errorCallback);
-    // Called when an unexpected program error occurs.
     function panic(message) {
         let msg = "panic: " + message;
         console.error(msg);
@@ -1100,16 +953,13 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
     "use strict";
     var Options, Spans, MATCH_LINE, LINE_DEF, LITERAL_DEF_OPEN, LITERAL_DEF_CLOSE, EXPRESSION_DEF_OPEN, EXPRESSION_DEF_CLOSE, defs;
     var __moduleName = context_10 && context_10.id;
-    // Reset definitions to defaults.
     function init() {
-        // Initialize predefined macros.
         exports_10("defs", defs = [
             { name: "--", value: "" },
             { name: "--header-ids", value: "" },
         ]);
     }
     exports_10("init", init);
-    // Return named macro value or null if it doesn't exist.
     function getValue(name) {
         for (let def of defs) {
             if (def.name === name) {
@@ -1119,12 +969,9 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         return null;
     }
     exports_10("getValue", getValue);
-    // Set named macro value or add it if it doesn't exist.
-    // If the name ends with '?' then don't set the macro if it already exists.
-    // `quote` is a single character: ' if a literal value, ` if an expression value.
     function setValue(name, value, quote) {
         if (Options.skipMacroDefs()) {
-            return; // Skip if a safe mode is set.
+            return;
         }
         let existential = false;
         if (name.slice(-1) === "?") {
@@ -1137,7 +984,7 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         }
         if (quote === "`") {
             try {
-                value = eval(value); // tslint:disable-line no-eval
+                value = eval(value);
             }
             catch (e) {
                 Options.errorCallback(`illegal macro expression: ${e.message}: ${value}`);
@@ -1154,11 +1001,9 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
         defs.push({ name: name, value: value });
     }
     exports_10("setValue", setValue);
-    // Render macro invocations in text string.
-    // Render Simple invocations first, followed by Parametized, Inclusion and Exclusion invocations.
     function render(text, silent = false) {
-        const MATCH_COMPLEX = /\\?{([\w\-]+)([!=|?](?:|[^]*?[^\\]))}/g; // Parametrized, Inclusion and Exclusion invocations.
-        const MATCH_SIMPLE = /\\?{([\w\-]+)()}/g; // Simple macro invocation.
+        const MATCH_COMPLEX = /\\?{([\w\-]+)([!=|?](?:|[^]*?[^\\]))}/g;
+        const MATCH_SIMPLE = /\\?{([\w\-]+)()}/g;
         let result = text;
         [MATCH_SIMPLE, MATCH_COMPLEX].forEach((find) => {
             result = result.replace(find, function (match, ...submatches) {
@@ -1167,13 +1012,13 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
                 }
                 let name = submatches[0];
                 let params = submatches[1] || "";
-                if (params[0] === "?") { // DEPRECATED: Existential macro invocation.
+                if (params[0] === "?") {
                     if (!silent) {
                         Options.errorCallback("existential macro invocations are deprecated: " + match);
                     }
                     return match;
                 }
-                let value = getValue(name); // Macro value is null if macro is undefined.
+                let value = getValue(name);
                 if (value === null) {
                     if (!silent) {
                         Options.errorCallback("undefined macro: " + match + ": " + text);
@@ -1183,32 +1028,28 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
                 if (find === MATCH_SIMPLE) {
                     return value;
                 }
-                params = params.replace(/\\}/g, "}"); // Unescape escaped } characters.
+                params = params.replace(/\\}/g, "}");
                 switch (params[0]) {
-                    case "|": // Parametrized macro.
+                    case "|":
                         let paramsList = params.slice(1).split("|");
-                        // Substitute macro parameters.
-                        // Matches macro definition formal parameters [$]$<param-number>[[\]:<default-param-value>$]
-                        // [$]$ = 1st match group; <param-number> (1, 2..) = 2nd match group;
-                        // :[\]<default-param-value>$ = 3rd match group; <default-param-value> = 4th match group.
                         const PARAM_RE = /\\?(\$\$?)(\d+)(\\?:(|[^]*?[^\\])\$)?/g;
                         value = (value || "").replace(PARAM_RE, function (match, p1, p2, p3, p4) {
-                            if (match[0] === "\\") { // Unescape escaped macro parameters.
+                            if (match[0] === "\\") {
                                 return match.slice(1);
                             }
                             if (Number(p2) === 0) {
-                                return match; // $0 is not a valid parameter name.
+                                return match;
                             }
                             let param = paramsList[Number(p2) - 1];
-                            param = param === undefined ? "" : param; // Unassigned parameters are replaced with a blank string.
+                            param = param === undefined ? "" : param;
                             if (p3 !== undefined) {
-                                if (p3[0] === "\\") { // Unescape escaped default parameter.
+                                if (p3[0] === "\\") {
                                     param += p3.slice(1);
                                 }
                                 else {
                                     if (param === "") {
-                                        param = p4; // Assign default parameter value.
-                                        param = param.replace(/\\\$/g, "$"); // Unescape escaped $ characters in the default value.
+                                        param = p4;
+                                        param = param.replace(/\\\$/g, "$");
                                     }
                                 }
                             }
@@ -1218,8 +1059,8 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
                             return param;
                         });
                         return value;
-                    case "!": // Exclusion macro.
-                    case "=": // Inclusion macro.
+                    case "!":
+                    case "=":
                         let pattern = params.slice(1);
                         let skip = false;
                         try {
@@ -1234,14 +1075,13 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
                         if (params[0] === "!") {
                             skip = !skip;
                         }
-                        return skip ? "\u0002" : ""; // Flag line for deletion.
+                        return skip ? "\u0002" : "";
                     default:
                         Options.errorCallback("illegal macro syntax: " + match[0]);
                         return "";
                 }
             });
         });
-        // Delete lines flagged by Inclusion/Exclusion macros.
         if (result.indexOf("\u0002") !== -1) {
             result = result.split("\n")
                 .filter((line) => line.indexOf("\u0002") === -1)
@@ -1260,14 +1100,10 @@ System.register("https://deno.land/x/rimu/src/deno/macros", ["https://deno.land/
             }
         ],
         execute: function () {
-            // Matches a line starting with a macro invocation. $1 = macro invocation.
             exports_10("MATCH_LINE", MATCH_LINE = /^({(?:[\w\-]+)(?:[!=|?](?:|.*?[^\\]))?}).*$/);
-            // Match single-line macro definition. $1 = name, $2 = delimiter, $3 = value.
             exports_10("LINE_DEF", LINE_DEF = /^\\?{([\w\-]+\??)}\s*=\s*(['`])(.*)\2$/);
-            // Match multi-line macro definition literal value open delimiter. $1 is first line of macro.
             exports_10("LITERAL_DEF_OPEN", LITERAL_DEF_OPEN = /^\\?{[\w\-]+\??}\s*=\s*'(.*)$/);
             exports_10("LITERAL_DEF_CLOSE", LITERAL_DEF_CLOSE = /^(.*)'$/);
-            // Match multi-line macro definition expression value open delimiter. $1 is first line of macro.
             exports_10("EXPRESSION_DEF_OPEN", EXPRESSION_DEF_OPEN = /^\\?{[\w\-]+\??}\s*=\s*`(.*)$/);
             exports_10("EXPRESSION_DEF_CLOSE", EXPRESSION_DEF_CLOSE = /^(.*)`$/);
             exports_10("defs", defs = []);
@@ -1278,15 +1114,11 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
     "use strict";
     var Api, Macros, Options, Utils, utils_ts_1, MATCH_INLINE_TAG, defs, DEFAULT_DEFS;
     var __moduleName = context_11 && context_11.id;
-    // Reset definitions to defaults.
     function init() {
         exports_11("defs", defs = DEFAULT_DEFS.map((def) => Utils.copy(def)));
-        // Copy definition object fields.
         defs.forEach((def, i) => def.expansionOptions = Utils.copy(DEFAULT_DEFS[i].expansionOptions));
     }
     exports_11("init", init);
-    // If the next element in the reader is a valid delimited block render it
-    // and return true, else return false.
     function render(reader, writer, allowed = []) {
         if (reader.eof())
             Options.panic("premature eof");
@@ -1296,23 +1128,18 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
             }
             let match = reader.cursor.match(def.openMatch);
             if (match) {
-                // Escape non-paragraphs.
                 if (match[0][0] === "\\" && def.name !== "paragraph") {
-                    // Drop backslash escape and continue.
                     reader.cursor = reader.cursor.slice(1);
                     continue;
                 }
                 if (def.verify && !def.verify(match)) {
                     continue;
                 }
-                // Process opening delimiter.
                 let delimiterText = def.delimiterFilter ? def.delimiterFilter(match) : "";
-                // Read block content into lines.
                 let lines = [];
                 if (delimiterText) {
                     lines.push(delimiterText);
                 }
-                // Read content up to the closing delimiter.
                 reader.next();
                 let content = reader.readTo(def.closeMatch);
                 if (content === null) {
@@ -1321,7 +1148,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                 if (content) {
                     lines = [...lines, ...content];
                 }
-                // Calculate block expansion options.
                 let expansionOptions = {
                     macros: false,
                     spans: false,
@@ -1331,7 +1157,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                 };
                 Utils.merge(expansionOptions, def.expansionOptions);
                 Utils.merge(expansionOptions, utils_ts_1.BlockAttributes.options);
-                // Translate block.
                 if (!expansionOptions.skip) {
                     let text = lines.join("\n");
                     if (def.contentFilter) {
@@ -1345,7 +1170,7 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                         opentag = utils_ts_1.BlockAttributes.inject(opentag);
                     }
                     if (expansionOptions.container) {
-                        delete utils_ts_1.BlockAttributes.options.container; // Consume before recursion.
+                        delete utils_ts_1.BlockAttributes.options.container;
                         text = Api.render(text);
                     }
                     else {
@@ -1353,7 +1178,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     }
                     let closetag = def.closeTag;
                     if (def.name === "division" && opentag === "<div>") {
-                        // Drop div tags if the opening div has no attributes.
                         opentag = "";
                         closetag = "";
                     }
@@ -1361,24 +1185,20 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     writer.write(text);
                     writer.write(closetag);
                     if ((opentag || text || closetag) && !reader.eof()) {
-                        // Add a trailing '\n' if we've written a non-blank line and there are more source lines left.
                         writer.write("\n");
                     }
                 }
-                // Reset consumed Block Attributes expansion options.
                 utils_ts_1.BlockAttributes.options = {};
                 return true;
             }
         }
-        return false; // No matching delimited block found.
+        return false;
     }
     exports_11("render", render);
-    // Return block definition or undefined if not found.
     function getDefinition(name) {
         return defs.filter((def) => def.name === name)[0];
     }
     exports_11("getDefinition", getDefinition);
-    // Parse block-options string into blockOptions.
     function setBlockOptions(blockOptions, optionsString) {
         if (optionsString) {
             let opts = optionsString.trim().split(/\s+/);
@@ -1397,8 +1217,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
         }
     }
     exports_11("setBlockOptions", setBlockOptions);
-    // Update existing named definition.
-    // Value syntax: <open-tag>|<close-tag> block-options
     function setDefinition(name, value) {
         let def = getDefinition(name);
         if (!def) {
@@ -1420,12 +1238,9 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
         }
     }
     exports_11("setDefinition", setDefinition);
-    // delimiterFilter that returns opening delimiter line text from match group $1.
     function delimiterTextFilter(match) {
         return match[1];
     }
-    // delimiterFilter for code, division and quote blocks.
-    // Inject $2 into block class attribute, set close delimiter to $1.
     function classInjectionFilter(match) {
         if (match[2]) {
             let p1;
@@ -1436,13 +1251,12 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
         this.closeMatch = RegExp("^" + Utils.escapeRegExp(match[1]) + "$");
         return "";
     }
-    // contentFilter for multi-line macro definitions.
     function macroDefContentFilter(text, match, expansionOptions) {
-        let quote = match[0][match[0].length - match[1].length - 1]; // The leading macro value quote character.
-        let name = match[0].match(/^{([\w\-]+\??)}/)[1]; // Extract macro name from opening delimiter.
-        text = text.replace(RegExp("(" + quote + ") *\\\\\\n", "g"), "$1\n"); // Unescape line-continuations.
-        text = text.replace(RegExp("(" + quote + " *[\\\\]+)\\\\\\n", "g"), "$1\n"); // Unescape escaped line-continuations.
-        text = Utils.replaceInline(text, expansionOptions); // Expand macro invocations.
+        let quote = match[0][match[0].length - match[1].length - 1];
+        let name = match[0].match(/^{([\w\-]+\??)}/)[1];
+        text = text.replace(RegExp("(" + quote + ") *\\\\\\n", "g"), "$1\n");
+        text = text.replace(RegExp("(" + quote + " *[\\\\]+)\\\\\\n", "g"), "$1\n");
+        text = Utils.replaceInline(text, expansionOptions);
         Macros.setValue(name, text, quote);
         return "";
     }
@@ -1463,11 +1277,8 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
             }
         ],
         execute: function () {
-            /* tslint:disable:max-line-length */
             MATCH_INLINE_TAG = /^(a|abbr|acronym|address|b|bdi|bdo|big|blockquote|br|cite|code|del|dfn|em|i|img|ins|kbd|mark|q|s|samp|small|span|strike|strong|sub|sup|time|tt|u|var|wbr)$/i;
             DEFAULT_DEFS = [
-                // Delimited blocks cannot be escaped with a backslash.
-                // Multi-line macro literal value definition.
                 {
                     openMatch: Macros.LITERAL_DEF_OPEN,
                     closeMatch: Macros.LITERAL_DEF_CLOSE,
@@ -1479,8 +1290,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     delimiterFilter: delimiterTextFilter,
                     contentFilter: macroDefContentFilter,
                 },
-                // Multi-line macro expression value definition.
-                // DEPRECATED as of 11.0.0.
                 {
                     openMatch: Macros.EXPRESSION_DEF_OPEN,
                     closeMatch: Macros.EXPRESSION_DEF_CLOSE,
@@ -1492,7 +1301,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     delimiterFilter: delimiterTextFilter,
                     contentFilter: macroDefContentFilter,
                 },
-                // Comment block.
                 {
                     name: "comment",
                     openMatch: /^\\?\/\*+$/,
@@ -1504,7 +1312,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                         specials: true,
                     },
                 },
-                // Division block.
                 {
                     name: "division",
                     openMatch: /^\\?(\.{2,})([\w\s-]*)$/,
@@ -1516,7 +1323,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     },
                     delimiterFilter: classInjectionFilter,
                 },
-                // Quote block.
                 {
                     name: "quote",
                     openMatch: /^\\?("{2,})([\w\s-]*)$/,
@@ -1528,7 +1334,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     },
                     delimiterFilter: classInjectionFilter,
                 },
-                // Code block.
                 {
                     name: "code",
                     openMatch: /^\\?(-{2,}|`{2,})([\w\s-]*)$/,
@@ -1539,17 +1344,12 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                         specials: true,
                     },
                     verify: function (match) {
-                        // The deprecated '-' delimiter does not support appended class names.
                         return !(match[1][0] === "-" && match[2].trim() !== "");
                     },
                     delimiterFilter: classInjectionFilter,
                 },
-                // HTML block.
                 {
                     name: "html",
-                    // Block starts with HTML comment, DOCTYPE directive or block-level HTML start or end tag.
-                    // $1 is first line of block.
-                    // $2 is the alphanumeric tag name.
                     openMatch: /^(<!--.*|<!DOCTYPE(?:\s.*)?|<\/?([a-z][a-z0-9]*)(?:[\s>].*)?)$/i,
                     closeMatch: /^$/,
                     openTag: "",
@@ -1558,18 +1358,16 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                         macros: true,
                     },
                     verify: function (match) {
-                        // Return false if the HTML tag is an inline (non-block) HTML tag.
-                        if (match[2]) { // Matched alphanumeric tag name.
+                        if (match[2]) {
                             return !MATCH_INLINE_TAG.test(match[2]);
                         }
                         else {
-                            return true; // Matched HTML comment or doctype tag.
+                            return true;
                         }
                     },
                     delimiterFilter: delimiterTextFilter,
                     contentFilter: Options.htmlSafeModeFilter,
                 },
-                // Indented paragraph.
                 {
                     name: "indented",
                     openMatch: /^\\?(\s+\S.*)$/,
@@ -1582,11 +1380,9 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     },
                     delimiterFilter: delimiterTextFilter,
                     contentFilter: function (text) {
-                        // Strip indent from start of each line.
                         let first_indent = text.search(/\S/);
                         return text.split("\n")
                             .map((line) => {
-                            // Strip first line indent width or up to first non-space character.
                             let indent = line.search(/\S|$/);
                             if (indent > first_indent)
                                 indent = first_indent;
@@ -1595,7 +1391,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                             .join("\n");
                     },
                 },
-                // Quote paragraph.
                 {
                     name: "quote-paragraph",
                     openMatch: /^\\?(>.*)$/,
@@ -1609,7 +1404,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                     },
                     delimiterFilter: delimiterTextFilter,
                     contentFilter: function (text) {
-                        // Strip leading > from start of each line and unescape escaped leading >.
                         return text.split("\n")
                             .map((line) => line
                             .replace(/^>/, "")
@@ -1617,7 +1411,6 @@ System.register("https://deno.land/x/rimu/src/deno/delimitedblocks", ["https://d
                             .join("\n");
                     },
                 },
-                // Paragraph (lowest priority, cannot be escaped).
                 {
                     name: "paragraph",
                     openMatch: /(.*)/,
@@ -1639,8 +1432,6 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
     "use strict";
     var DelimitedBlocks, Macros, Options, Quotes, Replacements, Utils, utils_ts_2, defs;
     var __moduleName = context_12 && context_12.id;
-    // If the next element in the reader is a valid line block render it
-    // and return true, else return false.
     function render(reader, writer, allowed = []) {
         if (reader.eof())
             Options.panic("premature eof");
@@ -1651,7 +1442,6 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
             let match = def.match.exec(reader.cursor);
             if (match) {
                 if (match[0][0] === "\\") {
-                    // Drop backslash escape and continue.
                     reader.cursor = reader.cursor.slice(1);
                     continue;
                 }
@@ -1672,7 +1462,7 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                     writer.write(text);
                     reader.next();
                     if (!reader.eof()) {
-                        writer.write("\n"); // Add a trailing '\n' if there are more lines.
+                        writer.write("\n");
                     }
                 }
                 else {
@@ -1708,30 +1498,21 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
         ],
         execute: function () {
             defs = [
-                // Prefix match with backslash to allow escaping.
-                // Comment line.
                 {
                     match: /^\\?\/{2}(.*)$/,
                 },
-                // Expand lines prefixed with a macro invocation prior to all other processing.
-                // macro name = $1, macro value = $2
                 {
                     match: Macros.MATCH_LINE,
                     verify: function (match, reader) {
                         if (Macros.LITERAL_DEF_OPEN.test(match[0]) ||
                             Macros.EXPRESSION_DEF_OPEN.test(match[0])) {
-                            // Do not process macro definitions.
                             return false;
                         }
-                        // Silent because any macro expansion errors will be subsequently addressed downstream.
                         let value = Macros.render(match[0], true);
                         if (value.substr(0, match[0].length) === match[0] ||
                             value.indexOf("\n" + match[0]) >= 0) {
-                            // The leading macro invocation expansion failed or contains itself.
-                            // This stops infinite recursion.
                             return false;
                         }
-                        // Insert the macro value into the reader just ahead of the cursor.
                         let spliceArgs = [
                             reader.pos + 1,
                             0,
@@ -1741,29 +1522,25 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                         return true;
                     },
                     filter: function (match, reader) {
-                        return ""; // Already processed in the `verify` function.
+                        return "";
                     },
                 },
-                // Delimited Block definition.
-                // name = $1, definition = $2
                 {
                     match: /^\\?\|([\w\-]+)\|\s*=\s*'(.*)'$/,
                     filter: function (match) {
                         if (Options.isSafeModeNz()) {
-                            return ""; // Skip if a safe mode is set.
+                            return "";
                         }
                         match[2] = Utils.replaceInline(match[2], { macros: true });
                         DelimitedBlocks.setDefinition(match[1], match[2]);
                         return "";
                     },
                 },
-                // Quote definition.
-                // quote = $1, openTag = $2, separator = $3, closeTag = $4
                 {
                     match: /^(\S{1,2})\s*=\s*'([^|]*)(\|{1,2})(.*)'$/,
                     filter: function (match) {
                         if (Options.isSafeModeNz()) {
-                            return ""; // Skip if a safe mode is set.
+                            return "";
                         }
                         Quotes.setDefinition({
                             quote: match[1],
@@ -1774,13 +1551,11 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                         return "";
                     },
                 },
-                // Replacement definition.
-                // pattern = $1, flags = $2, replacement = $3
                 {
                     match: /^\\?\/(.+)\/([igm]*)\s*=\s*'(.*)'$/,
                     filter: function (match) {
                         if (Options.isSafeModeNz()) {
-                            return ""; // Skip if a safe mode is set.
+                            return "";
                         }
                         let pattern = match[1];
                         let flags = match[2];
@@ -1790,8 +1565,6 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                         return "";
                     },
                 },
-                // Macro definition.
-                // name = $1, value = $2
                 {
                     match: Macros.LINE_DEF,
                     filter: function (match) {
@@ -1803,34 +1576,25 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                         return "";
                     },
                 },
-                // Headers.
-                // $1 is ID, $2 is header text.
                 {
                     match: /^\\?([#=]{1,6})\s+(.+?)(?:\s+\1)?$/,
                     replacement: "<h$1>$$2</h$1>",
                     filter: function (match) {
-                        match[1] = match[1].length.toString(); // Replace $1 with header number.
+                        match[1] = match[1].length.toString();
                         if (Macros.getValue("--header-ids") && utils_ts_2.BlockAttributes.id === "") {
                             utils_ts_2.BlockAttributes.id = utils_ts_2.BlockAttributes.slugify(match[2]);
                         }
                         return Utils.replaceMatch(match, this.replacement, { macros: true });
                     },
                 },
-                // Block image: <image:src|alt>
-                // src = $1, alt = $2
                 {
                     match: /^\\?<image:([^\s|]+)\|([^]+?)>$/,
                     replacement: '<img src="$1" alt="$2">',
                 },
-                // Block image: <image:src>
-                // src = $1, alt = $1
                 {
                     match: /^\\?<image:([^\s|]+?)>$/,
                     replacement: '<img src="$1" alt="$1">',
                 },
-                // DEPRECATED as of 3.4.0.
-                // Block anchor: <<#id>>
-                // id = $1
                 {
                     match: /^\\?<<#([a-zA-Z][\w\-]*)>>$/,
                     replacement: '<div id="$1"></div>',
@@ -1839,13 +1603,10 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                             return "";
                         }
                         else {
-                            // Default (non-filter) replacement processing.
                             return Utils.replaceMatch(match, this.replacement, { macros: true });
                         }
                     },
                 },
-                // Block Attributes.
-                // Syntax: .class-names #id [html-attributes] block-options
                 {
                     name: "attributes",
                     match: /^\\?\.[a-zA-Z#"\[+-].*$/,
@@ -1853,8 +1614,6 @@ System.register("https://deno.land/x/rimu/src/deno/lineblocks", ["https://deno.l
                         return utils_ts_2.BlockAttributes.parse(match);
                     },
                 },
-                // API Option.
-                // name = $1, value = $2
                 {
                     match: /^\\?\.(\w+)\s*=\s*'(.*)'$/,
                     filter: function (match) {
@@ -1882,7 +1641,6 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
         }
         ids = [];
         renderList(start_item, reader, writer);
-        // ids should now be empty.
         if (ids.length !== 0)
             Options.panic("list stack failure");
         return true;
@@ -1895,7 +1653,6 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
         while (true) {
             next_item = renderListItem(item, reader, writer);
             if (!next_item || next_item.id !== item.id) {
-                // End of list or next item belongs to parent list.
                 writer.write(item.def.listCloseTag);
                 ids.pop();
                 return next_item;
@@ -1903,24 +1660,21 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
             item = next_item;
         }
     }
-    // Render the current list item, return the next list item or null if there are no more items.
     function renderListItem(item, reader, writer) {
         let def = item.def;
         let match = item.match;
         let text;
-        if (match.length === 4) { // 3 match groups => definition list.
+        if (match.length === 4) {
             writer.write(utils_ts_3.BlockAttributes.inject(def.termOpenTag, false));
-            utils_ts_3.BlockAttributes.id = ""; // Only applied to term tag.
+            utils_ts_3.BlockAttributes.id = "";
             text = Utils.replaceInline(match[1], { macros: true, spans: true });
             writer.write(text);
             writer.write(def.termCloseTag);
         }
         writer.write(utils_ts_3.BlockAttributes.inject(def.itemOpenTag));
-        // Process item text from first line.
         let item_lines = new Io.Writer();
         text = match[match.length - 1];
         item_lines.write(text + "\n");
-        // Process remainder of list item i.e. item text, optional attached block, optional child list.
         reader.next();
         let attached_lines = new Io.Writer();
         let blank_lines;
@@ -1929,23 +1683,20 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
         while (true) {
             blank_lines = consumeBlockAttributes(reader, attached_lines);
             if (blank_lines >= 2 || blank_lines === -1) {
-                // EOF or two or more blank lines terminates list.
                 next_item = null;
                 break;
             }
             next_item = matchItem(reader);
             if (next_item) {
                 if (ids.indexOf(next_item.id) !== -1) {
-                    // Next item belongs to current list or a parent list.
                 }
                 else {
-                    // Render child list.
                     next_item = renderList(next_item, reader, attached_lines);
                 }
                 break;
             }
             if (attached_done) {
-                break; // Multiple attached blocks are not permitted.
+                break;
             }
             if (blank_lines === 0) {
                 let savedIds = ids;
@@ -1954,7 +1705,6 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
                     attached_done = true;
                 }
                 else {
-                    // Item body line.
                     item_lines.write(reader.cursor + "\n");
                     reader.next();
                 }
@@ -1969,18 +1719,13 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
                 }
             }
         }
-        // Write item text.
         text = item_lines.toString().trim();
         text = Utils.replaceInline(text, { macros: true, spans: true });
         writer.write(text);
-        // Write attachment and child list.
         writer.buffer = [...writer.buffer, ...attached_lines.buffer];
-        // Close list item.
         writer.write(def.itemCloseTag);
         return next_item;
     }
-    // Consume blank lines and Block Attributes.
-    // Return number of blank lines read or -1 if EOF.
     function consumeBlockAttributes(reader, writer) {
         let blanks = 0;
         while (true) {
@@ -1997,25 +1742,20 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
             reader.next();
         }
     }
-    // Check if the line at the reader cursor matches a list related element.
-    // Unescape escaped list items in reader.
-    // If it does not match a list related element return null.
     function matchItem(reader) {
-        // Check if the line matches a List definition.
         if (reader.eof())
             return null;
-        let item = {}; // ItemInfo factory.
-        // Check if the line matches a list item.
+        let item = {};
         for (let def of defs) {
             let match = def.match.exec(reader.cursor);
             if (match) {
                 if (match[0][0] === "\\") {
-                    reader.cursor = reader.cursor.slice(1); // Drop backslash.
+                    reader.cursor = reader.cursor.slice(1);
                     return null;
                 }
                 item.match = match;
                 item.def = def;
-                item.id = match[match.length - 2]; // The second to last match group is the list ID.
+                item.id = match[match.length - 2];
                 return item;
             }
         }
@@ -2042,9 +1782,6 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
         ],
         execute: function () {
             defs = [
-                // Prefix match with backslash to allow escaping.
-                // Unordered lists.
-                // $1 is list ID $2 is item text.
                 {
                     match: /^\\?\s*(-|\+|\*{1,4})\s+(.*)$/,
                     listOpenTag: "<ul>",
@@ -2052,8 +1789,6 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
                     itemOpenTag: "<li>",
                     itemCloseTag: "</li>",
                 },
-                // Ordered lists.
-                // $1 is list ID $2 is item text.
                 {
                     match: /^\\?\s*(?:\d*)(\.{1,4})\s+(.*)$/,
                     listOpenTag: "<ol>",
@@ -2061,8 +1796,6 @@ System.register("https://deno.land/x/rimu/src/deno/lists", ["https://deno.land/x
                     itemOpenTag: "<li>",
                     itemCloseTag: "</li>",
                 },
-                // Definition lists.
-                // $1 is term, $2 is list ID, $3 is definition.
                 {
                     match: /^\\?\s*(.*[^:])(:{2,4})(|\s+.*)$/,
                     listOpenTag: "<dl>",
@@ -2093,13 +1826,11 @@ System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/r
                 continue;
             if (DelimitedBlocks.render(reader, writer))
                 continue;
-            // This code should never be executed (normal paragraphs should match anything).
             Options.panic("no matching delimited block found");
         }
         return writer.toString();
     }
     exports_14("render", render);
-    // Set API to default state.
     function init() {
         utils_ts_4.BlockAttributes.init();
         Options.init();
@@ -2143,21 +1874,10 @@ System.register("https://deno.land/x/rimu/src/deno/api", ["https://deno.land/x/r
         }
     };
 });
-/*
- This is the main module, it exports the 'render' API.
-
- The compiled modules are bundled by Webpack into 'var' (script tag) and 'commonjs' (npm)
- formatted libraries.
- */
 System.register("https://deno.land/x/rimu/src/deno/rimu", ["https://deno.land/x/rimu/src/deno/api", "https://deno.land/x/rimu/src/deno/options"], function (exports_15, context_15) {
     "use strict";
     var Api, Options;
     var __moduleName = context_15 && context_15.id;
-    /*
-      The single public API which translates Rimu Markup to HTML:
-    
-        render(source [, options])
-     */
     function render(source, opts = {}) {
         Options.updateOptions(opts);
         return Api.render(source);
@@ -2173,12 +1893,10 @@ System.register("https://deno.land/x/rimu/src/deno/rimu", ["https://deno.land/x/
             }
         ],
         execute: function () {
-            // Load-time initialization.
             Api.init();
         }
     };
 });
-// Rimu Deno module.
 System.register("https://deno.land/x/rimu/mod", ["https://deno.land/x/rimu/src/deno/rimu"], function (exports_16, context_16) {
     "use strict";
     var __moduleName = context_16 && context_16.id;
@@ -2291,4 +2009,4 @@ System.register("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", ["
     };
 });
 
-__instantiate("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod");
+__instantiate("file:///C:/Users/gd/GitHub/grzegorzdryja.github.io/src/mod", false);

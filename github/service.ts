@@ -2,7 +2,7 @@ import { GitHubRepo } from './model.ts';
 
 const REPOS_URL = 'https://api.github.com/users/grzegorzdryja/repos';
 const RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/master/data/';
-const FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders'];
+const FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders', 'JS_Paint'];
 
 const convert = (
   { name, html_url, language, description }:
