@@ -11,7 +11,7 @@ i.les {
     width: 210mm;
     height: 297mm;
     padding: 0.5cm 0.8cm 0.5cm 0.5cm;
-    margin: 0cm 0cm 0cm 0cm;
+    margin: 0;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
     background: white;
@@ -173,4 +173,11 @@ span, a {
     font-size: 0.75em;
     color: grey;
     text-align: center;
+}
+
+@media print {
+	#page {
+		border: 0;
+		box-shadow: 0 0 0;
+	}
 }
