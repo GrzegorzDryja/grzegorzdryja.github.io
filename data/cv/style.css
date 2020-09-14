@@ -160,6 +160,11 @@ span, a {
     vertical-align: middle;
 }
 
+#personal-details i {
+    font-size: 0.5em;
+    vertical-align: middle;;
+}
+
 #education, #interests, #courses {
     margin-top: 15px;
 }
