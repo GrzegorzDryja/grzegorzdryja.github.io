@@ -172,12 +172,11 @@ span, a {
 #footer {
     position: absolute;
     bottom: 0px;
-    padding-right: 0.8cm;
-    margin-left: 1cm;
+    padding: 0px 15px 15px 0px;
 }
 
 #footer p {
-    font-size: 0.75em;
+    font-size: 0.6em;
     color: grey;
     text-align: center;
 }
