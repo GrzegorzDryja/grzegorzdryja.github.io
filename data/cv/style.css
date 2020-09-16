@@ -10,13 +10,15 @@ i.les {
     font-size: 0.8em;
     width: 210mm;
     height: 297mm;
-    padding: 0.5cm 0.8cm 0.5cm 0.5cm;
+    padding: 0.5cm 1cm 0.5cm 1cm;
     margin: 0;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
     background: white;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
 }
 
 #header {
@@ -170,12 +172,13 @@ span, a {
 }
 
 #footer {
-    position: absolute;
-    bottom: 0px;
-    padding: 0px 15px 15px 0px;
+    display: flex;
+    flex: 2;
+    vertical-align: bottom;
 }
 
 #footer p {
+    margin: auto 0 0 0;
     font-size: 0.8em;
     color: grey;
     text-align: center;
