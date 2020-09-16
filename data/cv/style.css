@@ -112,12 +112,12 @@ flex-grow: 0;
         flex-direction: column;
         align-items: stretch;
        }
-
+       
 .school{
     flex-grow: 1;
-    margin-left: 17px;
-
+    margin-left: 0px;
 }
+
 .course {
     padding-top: 5px;
 }
