@@ -177,7 +177,6 @@ span, a {
     width: 194mm;
     margin: auto 8mm 5mm 8mm;
     display: flex;
-    vertical-align: bottom;
 }
 
 #footer p {
