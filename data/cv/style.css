@@ -9,7 +9,7 @@ i.les {
     font-family: "Poppins";
     font-size: 12px;
     width: 210mm;
-    height: 297mm;
+    height: 295mm;
     margin: 0;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
@@ -56,7 +56,6 @@ h5 {
 
 #main {
     width: 194mm;
-    height: 230mm;
     margin: 0mm 8mm 0mm 8mm;
     display: flex;
 }
@@ -76,7 +75,7 @@ h5 {
 
 #right p {
     margin-top: 0;
-    font-size: 12px;
+    font-size: 11px;
 }
 .jobs {
  display: flex;
@@ -175,13 +174,14 @@ span, a {
 }
 
 #footer {
+    width: 194mm;
+    margin: auto 8mm 5mm 8mm;
     display: flex;
-    flex: 2;
     vertical-align: bottom;
 }
 
 #footer p {
-    margin: 0 5mm 5mm 5mm;
+    margin: 0;
     font-size: 10px;
     color: grey;
     text-align: center;
