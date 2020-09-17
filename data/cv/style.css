@@ -7,10 +7,9 @@ i.les {
 
 #page {
     font-family: "Poppins";
-    font-size: 0.8em;
+    font-size: 12px;
     width: 210mm;
     height: 297mm;
-    padding: 0.5cm 1cm 0.5cm 1cm;
     margin: 0;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
@@ -23,6 +22,7 @@ i.les {
 
 #header {
     display: flex;
+    margin: 5mm 8mm 0mm 8mm;
 }
 
 #flag {
@@ -55,6 +55,9 @@ h5 {
 }
 
 #main {
+    width: 194mm;
+    height: 230mm;
+    margin: 0mm 8mm 0mm 8mm;
     display: flex;
 }
 
@@ -73,7 +76,7 @@ h5 {
 
 #right p {
     margin-top: 0;
-    font-size: 0.9em;
+    font-size: 12px;
 }
 .jobs {
  display: flex;
@@ -178,8 +181,8 @@ span, a {
 }
 
 #footer p {
-    margin: auto 0 0 0;
-    font-size: 0.8em;
+    margin: 0 5mm 5mm 5mm;
+    font-size: 10px;
     color: grey;
     text-align: center;
 }
@@ -187,6 +190,6 @@ span, a {
 @media print {
 	#page {
 		border: 0;
-		box-shadow: 0 0 0;
+        box-shadow: 0 0 0;
 	}
 }
