@@ -65,11 +65,11 @@ h5 {
 }
 
 #left {
-    width: 32%;
+    width: 64mm;
 }
 
 #right {
-    width: 68%;
+    width: 130mm;
     margin-top: 20px;
     margin-left: 8px;
 }
