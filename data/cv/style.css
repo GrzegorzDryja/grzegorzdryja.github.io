@@ -7,7 +7,7 @@ i.les {
 
 #page {
     font-family: "Poppins";
-    font-size: 12px;
+    font-size: 11px;
     width: 210mm;
     height: 295mm;
     margin: 0;
@@ -72,6 +72,9 @@ h5 {
     width: 130mm;
     margin-top: 20px;
     margin-left: 8px;
+}
+#right i{
+    margin: 7px 0 5px 0;
 }
 
 #right p {
@@ -170,7 +173,7 @@ span, a {
     vertical-align: middle;;
 }
 
-#education, #interests, #courses {
+#education, #interests, #courses, #professional-experience {
     margin-top: 15px;
 }
 
@@ -183,7 +186,7 @@ span, a {
 #footer p {
     width: 194mm;
     margin: 0;
-    font-size: 10px;
+    font-size: 9px;
     color: grey;
     text-align: center;
 }
