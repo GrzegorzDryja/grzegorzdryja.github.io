@@ -1,50 +1,72 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
-<head>
-  <meta charset="utf-8" />
-  <title>Hello World!</title>
-  <link href="//fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
-  <link href="//fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <link rel="shortcut icon" href="images/favicon.png" />
-</head>
-
-<body>
-  <script src="script.js"></script>
-  <div id="top-content">
-    <header>
-      <div>
-        <h1 class="title-global"><a onclick="">Grzegorz Dryja</a></h1>
-        <nav>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello World!</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+    crossorigin="anonymous">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap"
+    rel="stylesheet">
+    <!-- <link
+      href="//fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap"
+      rel="stylesheet">
+      <link
+      href="//fonts.googleapis.com/css2?family=Space+Mono&display=swap"
+      rel="stylesheet"> -->
+      <link rel="stylesheet" type="text/css" href="style.css" />
+      <link rel="shortcut icon" href="images/favicon.png" />
+    </head>
+    <body>    
+    <script src="script.js"></script>
+      
+    <div class="container-fluid">
+      <div class="row header">  
+        <div class="col-md-12 col-lg-5">
+          <h1 class="title-global"><a onclick="">GRZEGORZ DRYJA</a></h1>
+          <h2 class="title-global"><i>ANGULAR DEVELOPER</i></h2>
+        </div>
+        <div class="col-lg-7 col-md-offset-12 col-sm-offset-12">
           <ul>
             <li><a href="https://github.com/GrzegorzDryja">[ GitHub ]</a></li>
             <li><a href="https://www.sololearn.com/Profile/1056682">[ SoloLearn ]</a></li>
             <li><a href="https://platforma.strefakursow.pl/p/profil/Grzegorz-Y3pidGFVNnJpSituM3RMWHc5OGN0QT09">[ StrefaKursow ]</a></li>
             <li><a href="https://profile.codersrank.io/user/grzegorzdryja">[ Coder's Rank ]</a></li>
           </ul>
-        </nav>
+        </div>
       </div>
-    </header>
-
-    <div id="sidebar">
-      <div id="skill">
-        <div class="quiet">TECH STACK</div>
-        <div class="skill">JavaScript, HTML, CSS</div>
-        <div class="quiet">In progress: Data Structures, GIT, Design Patterns, TypeScript, Deno, Angular...</div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+          <about-me></about-me>
+          <div id="sidebar">
+            <div id="skill">
+              <div class="quiet">TECH STACK</div>
+              <div class="skill">JavaScript, HTML, CSS, TypeScript, Deno, Angular</div>
+              <div class="quiet">In progress: Data Structures, GIT, Design Patterns...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+          <repos></repos>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+          <footer>
+            <div class="quiet">
+              If you need me in your project feel free to contact.<br />
+              Design based on layout from <a href="https://adventofcode.com/">adventofcode.com</a> (full credit to Eric Wastl).<br />
+              Special thanks too Adam Odziemkowski from Zero To Mastery for showing this look.
+            </div>
+          </footer>
+        </div>
       </div>
     </div>
-    <main> 
-      <!-- about-me -->   
-      <!-- repos -->
-    </main>
-  </div>
-  <footer>
-    <div class="quiet">
-      Looking for my next job.<br />Design based on layout from <a href="https://adventofcode.com/">adventofcode.com</a> (full credit to Eric Wastl).<br />
-      Special thanks too Adam Odziemkowski from Zero To Mastery for showing this look.
-    </div>
-  </footer>
-</body>
 
+  </body>
 </html>

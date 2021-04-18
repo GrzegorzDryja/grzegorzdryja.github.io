@@ -7,8 +7,8 @@ I finished studies in economics, and for over a decade I worked as an e-commerce
 
 2015 was my breakpoint. I started to believe that I could be indeed excellent programmer. I was spending a good deal of time on online courses (udemy.com, strefakursow.pl), SoloLearn app, started reading IT webs, podcasts and books, attended IT conferences.
 
-Now progressing my coding skills in full-time mostly working with Deno runtime, practicing modularized, OOP programming with TypeScript, but Node.js is around to. Searching for my next job, of course most willingly in IT. 
+Now progressing my coding skills on Angular. Searching for my next job, of course most willingly in IT. 
 
 Ready to work remotly from Radom, I've got some nice office to work from here. But +100 km is no problem for me - Warsaw, Kielce, Krakow, Lodz.
 
-Privtely: family man, skier, saving money for my first gravel bike, waiting for next trip... Mountains are calling
+Privtely: family man, skier, saving money for new bike (love to ride to work), waiting for next trip... Mountains are calling.

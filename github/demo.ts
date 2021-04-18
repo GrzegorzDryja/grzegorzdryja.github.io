@@ -1,15 +1,18 @@
-export default function checkDemoFiles(name: string){
+export default async function checkDemoFiles(name: string){
+  const url = `./data/${name}/index.html`;
 
-    const url: string = `./data/${name}/index.html`;
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('HEAD', url, false);
-        xhr.send();
-         
-        if (
-            xhr.status == 404) {
-            return ``;
-        } else {
-            return `<a onclick=window.open("./data/${name}/index.html")>[ demo ]</a>`;
+  try {
+    const xhr = await fetch(
+        url,
+        {
+            method: 'HEAD',
+            cache: 'no-cache'
         }
+    );
+    return xhr.status === 200? `<a onclick=window.open("./data/${name}/index.html")>[ demo ]</a>`:''
+
+  } catch(error) {
+    console.log(error)
+    return false;
+  }
 }

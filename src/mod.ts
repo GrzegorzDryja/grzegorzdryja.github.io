@@ -1,12 +1,12 @@
-
 import showRepos from "../github/mod.ts";
 import { getAboutMe } from "../github/service.ts";
 import * as rimu from "https://deno.land/x/rimu/mod.ts";
 import checkDemoFiles from "../github/demo.ts";
+import { GitHubRepo } from "../github/model.ts";
 
 getAboutMe().then((bio) => {    
-    const markdown = document.createElement("about-me");
-    const main = document.getElementsByTagName("main");
+    const markdown = document.createElement("div");
+    const main = document.getElementsByTagName("about-me");
     const fullBio = rimu.render(bio);
     let status = "show";   
     markdown.innerHTML = fullBio.slice(0, 264) + "...";
@@ -36,17 +36,17 @@ getAboutMe().then((bio) => {
 });
 
 showRepos().then((repos) => {
-    const reposComponent = document.createElement("repos");
-    const main = document.getElementsByTagName("main");
+    const reposComponent = document.createElement("div");
+    const main = document.getElementsByTagName("repos");
     const p = document.createElement("p");
     p.innerHTML = "Check out a few of my repos served by the github api:";
     const reposList = document.createElement("ul");
 
-    repos.forEach((repo: any) => {               
+    repos.forEach((repo: GitHubRepo) => {               
         const li = document.createElement("li");
         const demo = checkDemoFiles(repo.name);
         const language = repo.language || "in develop"
-        li.innerHTML = `<a href="${repo.html_url}">${repo.name}</a><br />Programming language: <span>${language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
+        li.innerHTML = `<a href="${repo.htmlUrl}">${repo.name}</a><br />Programming language: <span>${language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
         reposList.appendChild(li);
     });
     reposComponent.appendChild(reposList);

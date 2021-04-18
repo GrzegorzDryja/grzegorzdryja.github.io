@@ -2,14 +2,14 @@ import { GitHubRepo } from './model.ts';
 
 const REPOS_URL = 'https://api.github.com/users/grzegorzdryja/repos';
 const RAW_URL = 'https://raw.githubusercontent.com/GrzegorzDryja/grzegorzdryja.github.io/master/data/';
-const FORBIDDEN_ROPOS = ['Strefanoid', 'Kalkulator', 'Console-Calculator', 'BallparkOrders', 'JS_Paint'];
+const FORBIDDEN_ROPOS = ['test'];
 
 const convert = (
-  { name, html_url, language, description }:
-  { name: string, html_url: string, language: string, description: string }
+  { name, htmlUrl, language, description }:
+  { name: string, htmlUrl: string, language: string, description: string }
 ) => new GitHubRepo({
   name,
-  html_url,
+  htmlUrl,
   language,
   description
 });
@@ -23,7 +23,7 @@ export default function getRepos() {
       throw Error('Response not 200 / something went wrong dowloading repos');
     })
     .then((arr) => arr
-      .filter((repo: any) => !FORBIDDEN_ROPOS.includes(repo.name))
+      .filter((repo: GitHubRepo) => !FORBIDDEN_ROPOS.includes(repo.name))
       .map(convert)) 
     .catch((err) => console.warn(err));
 }
@@ -41,6 +41,6 @@ async function getRawFIleContent(pathToFile: string) {
   }
 }
 
-export async function getAboutMe() {
+export function getAboutMe() {
   return getRawFIleContent('about-me.md');
 }
