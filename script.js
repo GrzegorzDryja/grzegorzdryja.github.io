@@ -61,19 +61,6 @@ function render1(source, opts = {
     return render(source);
 }
 init();
-async function checkDemoFiles(name1) {
-    const url = `./data/${name1}/index.html`;
-    try {
-        const xhr = await fetch(url, {
-            method: 'HEAD',
-            cache: 'no-cache'
-        });
-        return xhr.status === 200 ? `<a onclick=window.open("./data/${name1}/index.html")>[ demo ]</a>` : '';
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
 getAboutMe().then((bio)=>{
     const markdown = document.createElement("div");
     const main = document.getElementsByTagName("about-me");
@@ -110,9 +97,8 @@ __default().then((repos)=>{
     const reposList = document.createElement("ul");
     repos.forEach((repo)=>{
         const li = document.createElement("li");
-        const demo = checkDemoFiles(repo.name);
         const language1 = repo.language || "in develop";
-        li.innerHTML = `<a href="${repo.htmlUrl}">${repo.name}</a><br />Programming language: <span>${language1}</span><br />Description: <i>${repo.description}</i> ${demo}`;
+        li.innerHTML = `<a href="${repo.htmlUrl}">${repo.name}</a><br />Programming language: <span>${language1}</span><br />Description: <i>${repo.description}</i>`;
         reposList.appendChild(li);
     });
     reposComponent.appendChild(reposList);

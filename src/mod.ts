@@ -44,9 +44,9 @@ showRepos().then((repos) => {
 
     repos.forEach((repo: GitHubRepo) => {               
         const li = document.createElement("li");
-        const demo = checkDemoFiles(repo.name);
+        // const demo = checkDemoFiles(repo.name);
         const language = repo.language || "in develop"
-        li.innerHTML = `<a href="${repo.htmlUrl}">${repo.name}</a><br />Programming language: <span>${language}</span><br />Description: <i>${repo.description}</i> ${demo}`;
+        li.innerHTML = `<a href="${repo.htmlUrl}">${repo.name}</a><br />Programming language: <span>${language}</span><br />Description: <i>${repo.description}</i>`;
         reposList.appendChild(li);
     });
     reposComponent.appendChild(reposList);
