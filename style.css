@@ -176,10 +176,10 @@
 
   @media (max-width: 1140px) {
     h1 {
-      font-size: 5rem;
+      font-size: 1rem;
     }
     h2 {
-      font-size: 4rem;
+      font-size: 1rem;
       letter-spacing: 0.8rem;
     }
   }

@@ -63,7 +63,7 @@ function render1(source, opts = {
 init();
 getAboutMe().then((bio)=>{
     const markdown = document.createElement("div");
-    const main = document.getElementsByTagName("about-me");
+    const main = document.getElementsByTagName("aboutme");
     const fullBio = render1(bio);
     let status = "show";
     markdown.innerHTML = fullBio.slice(0, 264) + "...";
