@@ -6,11 +6,11 @@
  */
 
  body {
-    background: #001440 /*rgb(54, 128, 54)*/;
+    background: #002122  /* #001440 rgb(54, 128, 54)*/;
     color: #d6d6d6;
     font-family: 'Source Code Pro', monospace;
     font-size: 16px;
-    /* min-width: 60rem; */
+    /* min-width: 20rem; */
   }
   a { outline:0; }
   main, figure, figcaption { display: block; }
@@ -19,17 +19,17 @@
   }
   
   about-me { 
-    display: block
+    font-size: 1.1rem;
   }
   repos {
     display: block
   }
-  footer {
-    position: absolute;
+  .footer {
+    opacity: .6;
     bottom: 0;
     width: 100%;
     height: 2.5rem;
-    font-size: 13pt;
+    font-size: 0.7rem;
   }
   
   a {
@@ -107,18 +107,6 @@
     outline: none;
   }
   
-  input[type="text"], textarea, select, input[type="date"] {
-    background: transparent;
-    color: inherit;
-    border: 1px solid #666666;
-    background: #17182b;
-    padding: 0 2px;
-    font-family: inherit;
-    font-size: inherit;
-    min-width: 15rem;
-    margin: 0;
-  }
-  
   label {
     white-space: pre;
   }
@@ -176,10 +164,13 @@
 
   @media (max-width: 1140px) {
     h1 {
-      font-size: 1rem;
+      font-size: 6rem;
     }
     h2 {
-      font-size: 1rem;
+      font-size: 4rem;
       letter-spacing: 0.8rem;
+    }
+    about-me {
+      font-size: 3rem;
     }
   }

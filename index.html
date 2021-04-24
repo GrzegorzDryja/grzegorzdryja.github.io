@@ -11,24 +11,24 @@
     <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap"
     rel="stylesheet">
-    <link
+    <!-- <link
       href="//fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap"
       rel="stylesheet">
       <link
       href="//fonts.googleapis.com/css2?family=Space+Mono&display=swap"
-      rel="stylesheet">
+      rel="stylesheet"> -->
       <link rel="stylesheet" type="text/css" href="style.css" />
       <link rel="shortcut icon" href="images/favicon.png" />
     </head>
     <body>
-      <script src="script.js"></script>
+
     <div class="container-fluid">
-      <div class="row header">  
-        <div class="col-md-12 col-lg-5">
+      <div class="row">  
+        <div class="col-xl-4">
           <h1 class="title-global"><a onclick="">GRZEGORZ DRYJA</a></h1>
           <h2 class="title-global"><i>ANGULAR DEVELOPER</i></h2>
         </div>
-        <div class="col-lg-7 col-md-offset-12 col-sm-offset-12">
+        <div class="col-xl-8">
           <ul>
             <li><a href="https://github.com/GrzegorzDryja">[ GitHub ]</a></li>
             <li><a href="https://www.sololearn.com/Profile/1056682">[ SoloLearn ]</a></li>
@@ -38,33 +38,36 @@
         </div>
       </div>
       <div class="row">
+        <hr>
         <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-          <aboutme></aboutme>
-          <div id="sidebar">
-            <div id="skill">
-              <div class="quiet">TECH STACK</div>
-              <div class="skill">JavaScript, HTML, CSS, TypeScript, Deno, Angular</div>
-              <div class="quiet">In progress: Data Structures, GIT, Design Patterns...</div>
-            </div>
-          </div>
+          <about-me></about-me>
         </div>
+
+          <div id="skill">
+            <div class="quiet">TECH STACK</div>
+            <div class="skill">JavaScript, HTML, CSS, TypeScript, Deno, Angular</div>
+            <div class="quiet">In progress: Data Structures, GIT, Design Patterns...</div>
+          </div>
+
       </div>
       <div class="row">
+        <hr>
         <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
           <repos></repos>
         </div>
       </div>
       <div class="row">
+        <hr>
         <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-          <footer>
-            <div class="quiet">
+            <div class="footer">
               If you need me in your project feel free to contact.<br />
               Design based on layout from <a href="https://adventofcode.com/">adventofcode.com</a> (full credit to Eric Wastl).<br />
               Special thanks too Adam Odziemkowski from Zero To Mastery for showing this look.
             </div>
-          </footer>
         </div>
       </div>
-    </div>    
+    </div>
+    
+    <script src="script.js"></script>
   </body>
 </html>
