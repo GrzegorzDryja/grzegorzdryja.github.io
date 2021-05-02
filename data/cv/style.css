@@ -4,7 +4,9 @@
 i.les {
     opacity: 0.2;
 }
-
+i.les5050 {
+    opacity: 0.5;
+}
 #page {
     font-family: "Poppins";
     font-size: 11px;
@@ -130,7 +132,7 @@ flex-grow: 0;
     padding-top: 0px;
 }
 
-.course h4  {
+.course h3  {
     display: inline;
     font-weight: 600;
 }
@@ -175,6 +177,9 @@ span, a {
 
 #education, #interests, #courses, #professional-experience {
     margin-top: 15px;
+}
+#courses {
+    margin-bottom: 25px
 }
 
 #footer {
