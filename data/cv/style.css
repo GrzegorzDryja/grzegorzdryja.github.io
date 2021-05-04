@@ -191,8 +191,8 @@ span, a {
 #footer p {
     width: 194mm;
     margin: 0;
-    font-size: 9px;
-    color: grey;
+    font-size: 1em;
+    color:rgb(61, 61, 61);
     text-align: center;
 }
 
