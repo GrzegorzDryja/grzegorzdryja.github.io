@@ -184,14 +184,14 @@ span, a {
 
 #footer {
     width: 194mm;
-    margin: auto 8mm 5mm 8mm;
+    margin: auto 8mm 8mm 8mm;
     display: flex;
 }
 
 #footer p {
     width: 194mm;
     margin: 0;
-    font-size: 1em;
+    font-size: 0.9em;
     color:rgb(61, 61, 61);
     text-align: center;
 }
