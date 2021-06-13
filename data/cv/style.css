@@ -57,22 +57,25 @@ h5 {
 }
 
 #main {
+    border: black;
+    border-width: 2px;
     width: 194mm;
-    margin: 0mm 8mm 0mm 8mm;
+    margin: 5mm 8mm 0mm 8mm;
     display: flex;
-}
-
-#left div {
-    margin-top: 20px;
 }
 
 #left {
     width: 64mm;
 }
+#contact, #personal-details {
+    margin-top: 5mm;
+}
+#left div {
+    margin
+}
 
 #right {
     width: 130mm;
-    margin-top: 20px;
     margin-left: 8px;
 }
 #right i{
@@ -175,7 +178,7 @@ span, a {
     vertical-align: middle;;
 }
 
-#education, #interests, #courses, #professional-experience {
+#education, #interests, #courses {
     margin-top: 15px;
 }
 #courses {
