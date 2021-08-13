@@ -67,12 +67,12 @@ h5 {
 #left {
     width: 64mm;
 }
-#contact, #personal-details {
+#contact, #personal-details, #tech-stack {
     margin-top: 5mm;
 }
-#left div {
+/* #left div {
     margin
-}
+} */
 
 #right {
     width: 130mm;
