@@ -12,11 +12,19 @@ i.les5050 {
     font-size: 11px;
     width: 210mm;
     height: 297mm;
-    margin: 0;
-    border: 1px #D3D3D3 solid;
-    border-radius: 5px;
     background: white;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+}
+
+#page2 {
+    margin-top: 16px;
+    font-family: "Poppins";
+    font-size: 11px;
+    width: 210mm;
+    height: 297mm;
+    background: white;
     display: flex;
     flex-direction: column;
     align-content: flex-end;
@@ -49,7 +57,7 @@ h4, h5 {
 
 h5 {
     float: right;
-    font-weight: 300;
+    font-weight: 600;
 }
 
 #name {
@@ -67,7 +75,7 @@ h5 {
 #left {
     width: 64mm;
 }
-#contact, #personal-details, #tech-stack {
+#contact, #personal-details, #tech-stack, #portfolio {
     margin-top: 5mm;
 }
 /* #left div {
@@ -135,7 +143,7 @@ flex-grow: 0;
     padding-top: 0px;
 }
 
-.course h3  {
+.course h3 h4 h5  {
     display: inline;
     font-weight: 600;
 }
@@ -178,7 +186,7 @@ span, a {
     vertical-align: middle;;
 }
 
-#education, #interests, #courses {
+#education, #interests, #courses, #professional-experience {
     margin-top: 15px;
 }
 #courses {
@@ -197,12 +205,4 @@ span, a {
     font-size: 0.9em;
     color:rgb(61, 61, 61);
     text-align: center;
-}
-
-@media print {
-	#page {
-		border: 0;
-        box-shadow: 0 0 0;
-        height: 295mm;
-	}
 }
