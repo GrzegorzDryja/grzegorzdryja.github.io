@@ -1,4 +1,2 @@
-My own "Hello World" page
-
-To accept changes run:
-> deno bundle -c ./src/tsconfig.json ./src/mod.ts script.js
+# Hello World!  
+My name is Grzegorz. Front-end developer, working professionally mostly with Angular and this is my static info page, made with the simplest way.
